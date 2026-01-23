@@ -8,16 +8,14 @@ import com.intellij.openapi.ui.Messages
 import com.intellij.ui.ToolbarDecorator
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBList
+import com.intellij.ui.components.JBRadioButton
 import com.intellij.util.ui.JBUI
 import java.awt.BorderLayout
 import java.awt.FlowLayout
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import javax.swing.DefaultListModel
-import javax.swing.JButton
-import javax.swing.JComponent
-import javax.swing.JPanel
+import javax.swing.*
 
 /**
  * Settings UI for configuring docset paths.
@@ -27,6 +25,8 @@ class DocsetSettingsConfigurable : Configurable {
     private var panel: JPanel? = null
     private var listModel: DefaultListModel<String>? = null
     private var pathList: JBList<String>? = null
+    private var openInPanelRadio: JBRadioButton? = null
+    private var openInTabRadio: JBRadioButton? = null
 
     override fun getDisplayName(): String = "Docset Viewer"
 
@@ -52,13 +52,35 @@ class DocsetSettingsConfigurable : Configurable {
         // List panel
         mainPanel.add(decorator.createPanel(), BorderLayout.CENTER)
 
-        // Bottom panel with import buttons
-        val bottomPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
+        // Bottom panel with import button and options
+        val bottomPanel = JPanel()
+        bottomPanel.layout = BoxLayout(bottomPanel, BoxLayout.Y_AXIS)
         bottomPanel.border = JBUI.Borders.emptyTop(8)
 
+        // Import button row
+        val importRow = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
         val importZealButton = JButton("Import from Zeal")
         importZealButton.addActionListener { importFromZeal() }
-        bottomPanel.add(importZealButton)
+        importRow.add(importZealButton)
+        bottomPanel.add(importRow)
+
+        // Open location option
+        val optionsPanel = JPanel(FlowLayout(FlowLayout.LEFT, 0, 0))
+        optionsPanel.border = JBUI.Borders.emptyTop(12)
+        optionsPanel.add(JBLabel("Open documentation in: "))
+
+        val panelRadio = JBRadioButton("Docsets panel")
+        val tabRadio = JBRadioButton("New editor tab")
+        openInPanelRadio = panelRadio
+        openInTabRadio = tabRadio
+
+        val buttonGroup = ButtonGroup()
+        buttonGroup.add(panelRadio)
+        buttonGroup.add(tabRadio)
+
+        optionsPanel.add(panelRadio)
+        optionsPanel.add(tabRadio)
+        bottomPanel.add(optionsPanel)
 
         mainPanel.add(bottomPanel, BorderLayout.SOUTH)
 
@@ -191,24 +213,33 @@ class DocsetSettingsConfigurable : Configurable {
         val settings = DocsetSettings.getInstance()
         val currentPaths = settings.getDocsetPaths()
         val modelPaths = getModelPaths()
-        return currentPaths != modelPaths
+        val pathsModified = currentPaths != modelPaths
+        val openInPanelModified = settings.isOpenInPanel() != (openInPanelRadio?.isSelected ?: true)
+        return pathsModified || openInPanelModified
     }
 
     override fun apply() {
         val settings = DocsetSettings.getInstance()
         settings.setDocsetPaths(getModelPaths())
+        settings.setOpenInPanel(openInPanelRadio?.isSelected ?: true)
     }
 
     override fun reset() {
         val settings = DocsetSettings.getInstance()
         listModel?.clear()
         settings.getDocsetPaths().forEach { listModel?.addElement(it) }
+
+        val openInPanel = settings.isOpenInPanel()
+        openInPanelRadio?.isSelected = openInPanel
+        openInTabRadio?.isSelected = !openInPanel
     }
 
     override fun disposeUIResources() {
         panel = null
         listModel = null
         pathList = null
+        openInPanelRadio = null
+        openInTabRadio = null
     }
 
     private fun getModelPaths(): List<String> {

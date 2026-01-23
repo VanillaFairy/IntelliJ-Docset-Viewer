@@ -2,6 +2,8 @@ package io.github.vanillafairy.docsetviewer.actions
 
 import io.github.vanillafairy.docsetviewer.core.index.DocsetIndexService
 import io.github.vanillafairy.docsetviewer.core.model.DocsetEntry
+import io.github.vanillafairy.docsetviewer.editor.DocsetVirtualFile
+import io.github.vanillafairy.docsetviewer.settings.DocsetSettings
 import io.github.vanillafairy.docsetviewer.ui.toolwindow.DocsetToolWindowPanel
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnAction
@@ -171,10 +173,20 @@ class FindInDocsetsAction : AnAction(
     }
 
     private fun openEntry(project: Project, entry: DocsetEntry) {
-        // Show the Docsets tool window and open the entry there
-        val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Docsets") ?: return
-        toolWindow.show {
-            DocsetToolWindowPanel.getInstance(project)?.openEntry(entry)
+        val settings = DocsetSettings.getInstance()
+
+        if (settings.isOpenInPanel()) {
+            // Open in the Docsets tool window panel
+            val toolWindow = ToolWindowManager.getInstance(project).getToolWindow("Docsets") ?: return
+            toolWindow.show {
+                DocsetToolWindowPanel.getInstance(project)?.openEntry(entry)
+            }
+        } else {
+            // Open in a new editor tab
+            val indexService = DocsetIndexService.getInstance()
+            val docset = indexService.getDocset(entry.docsetIdentifier) ?: return
+            val virtualFile = DocsetVirtualFile(entry, docset)
+            FileEditorManager.getInstance(project).openFile(virtualFile, true)
         }
     }
 }

@@ -19,7 +19,8 @@ import com.intellij.util.xmlb.XmlSerializerUtil
 class DocsetSettings : PersistentStateComponent<DocsetSettings.State> {
 
     data class State(
-        var docsetPaths: MutableList<String> = mutableListOf()
+        var docsetPaths: MutableList<String> = mutableListOf(),
+        var openInPanel: Boolean = true
     )
 
     private var state = State()
@@ -96,6 +97,18 @@ class DocsetSettings : PersistentStateComponent<DocsetSettings.State> {
 
     private fun normalizePath(path: String): String {
         return path.replace('\\', '/').trimEnd('/')
+    }
+
+    /**
+     * Gets whether documentation should open in the Docsets panel (true) or in a new tab (false).
+     */
+    fun isOpenInPanel(): Boolean = state.openInPanel
+
+    /**
+     * Sets whether documentation should open in the Docsets panel (true) or in a new tab (false).
+     */
+    fun setOpenInPanel(value: Boolean) {
+        state.openInPanel = value
     }
 
     companion object {
