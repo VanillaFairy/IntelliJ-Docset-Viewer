@@ -75,8 +75,14 @@
                 description="Search for the current token in documentation">
             <keyboard-shortcut first-keystroke="F1" keymap="$default"/>
             <keyboard-shortcut first-keystroke="control shift D" keymap="$default"/>
+            <!-- Standard IntelliJ editor popup -->
             <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="QuickJavaDoc"/>
             <add-to-group group-id="ConsoleEditorPopupMenu" anchor="last"/>
+            <!-- Rider/ReSharper specific popup menus -->
+            <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
+            <add-to-group group-id="BasicEditorPopupMenu" anchor="last"/>
+            <!-- Additional context menus for broader compatibility -->
+            <add-to-group group-id="EditorTabPopupMenu" anchor="last"/>
         </action>
 
         <group id="DocsetViewer.Menu" text="Docsets" description="Docset viewer actions">
