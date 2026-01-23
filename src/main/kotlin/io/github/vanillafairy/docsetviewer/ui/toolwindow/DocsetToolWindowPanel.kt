@@ -4,43 +4,45 @@ import io.github.vanillafairy.docsetviewer.core.index.DocsetIndexService
 import io.github.vanillafairy.docsetviewer.core.model.Docset
 import io.github.vanillafairy.docsetviewer.core.model.DocsetEntry
 import io.github.vanillafairy.docsetviewer.core.model.DocsetType
-import io.github.vanillafairy.docsetviewer.editor.DocsetVirtualFile
+import io.github.vanillafairy.docsetviewer.editor.DocsetBrowserPanel
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
-import com.intellij.openapi.fileEditor.FileEditorManager
 import com.intellij.openapi.project.Project
+import com.intellij.openapi.util.Disposer
 import com.intellij.ui.DocumentAdapter
 import com.intellij.ui.JBSplitter
 import com.intellij.ui.SearchTextField
-import com.intellij.ui.components.JBList
 import com.intellij.ui.components.JBScrollPane
+import com.intellij.ui.treeStructure.Tree
 import com.intellij.icons.AllIcons
 import java.awt.BorderLayout
 import java.awt.Component
-import java.awt.event.MouseAdapter
-import java.awt.event.MouseEvent
 import javax.swing.*
 import javax.swing.event.DocumentEvent
+import javax.swing.tree.*
 import javax.swing.Timer
 
 /**
  * Main panel for the Docset tool window.
- * Contains a docset list and an entry search/list view.
+ * Contains a tree of docsets/entries on the left and a browser panel on the right.
  */
 class DocsetToolWindowPanel(
     private val project: Project
 ) : JPanel(BorderLayout()), Disposable {
 
-    private val docsetListModel = DefaultListModel<Docset>()
-    private val docsetList = JBList(docsetListModel)
-
-    private val entryListModel = DefaultListModel<DocsetEntry>()
-    private val entryList = JBList(entryListModel)
+    private val rootNode = DefaultMutableTreeNode("Docsets")
+    private val treeModel = DefaultTreeModel(rootNode)
+    private val tree = Tree(treeModel)
 
     private val searchField = SearchTextField()
     private var searchDebounceTimer: Timer? = null
 
     private val indexService = DocsetIndexService.getInstance()
+
+    private val browserPanel = DocsetBrowserPanel(this)
+
+    // Track if we're programmatically selecting to avoid recursive updates
+    private var isProgrammaticSelection = false
 
     init {
         setupUI()
@@ -49,46 +51,31 @@ class DocsetToolWindowPanel(
     }
 
     private fun setupUI() {
-        // Docset list on the left
-        docsetList.cellRenderer = DocsetCellRenderer()
-        docsetList.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        // Tree setup
+        tree.cellRenderer = DocsetTreeCellRenderer()
+        tree.isRootVisible = false
+        tree.showsRootHandles = true
+        tree.selectionModel.selectionMode = TreeSelectionModel.SINGLE_TREE_SELECTION
 
-        val docsetPanel = JPanel(BorderLayout())
-        docsetPanel.add(JLabel("Docsets"), BorderLayout.NORTH)
-        docsetPanel.add(JBScrollPane(docsetList), BorderLayout.CENTER)
+        val treePanel = JPanel(BorderLayout())
+        treePanel.add(searchField, BorderLayout.NORTH)
+        treePanel.add(JBScrollPane(tree), BorderLayout.CENTER)
 
-        // Entry list on the right
-        entryList.cellRenderer = EntryCellRenderer()
-        entryList.selectionMode = ListSelectionModel.SINGLE_SELECTION
+        // Main split: tree panel on the left and browser on the right
+        val mainSplitter = JBSplitter(false, 0.25f)
+        mainSplitter.firstComponent = treePanel
+        mainSplitter.secondComponent = browserPanel.component
 
-        val entryPanel = JPanel(BorderLayout())
-        entryPanel.add(searchField, BorderLayout.NORTH)
-        entryPanel.add(JBScrollPane(entryList), BorderLayout.CENTER)
-
-        // Split view
-        val splitter = JBSplitter(false, 0.3f)
-        splitter.firstComponent = docsetPanel
-        splitter.secondComponent = entryPanel
-
-        add(splitter, BorderLayout.CENTER)
+        add(mainSplitter, BorderLayout.CENTER)
     }
 
     private fun setupListeners() {
-        // Docset selection listener
-        docsetList.addListSelectionListener { e ->
-            if (!e.valueIsAdjusting) {
-                onDocsetSelected()
+        // Tree selection listener
+        tree.addTreeSelectionListener {
+            if (!isProgrammaticSelection) {
+                onTreeSelectionChanged()
             }
         }
-
-        // Entry double-click listener
-        entryList.addMouseListener(object : MouseAdapter() {
-            override fun mouseClicked(e: MouseEvent) {
-                if (e.clickCount == 2) {
-                    openSelectedEntry()
-                }
-            }
-        })
 
         // Search field listener with debouncing
         searchField.addDocumentListener(object : DocumentAdapter() {
@@ -109,6 +96,15 @@ class DocsetToolWindowPanel(
         })
     }
 
+    private fun onTreeSelectionChanged() {
+        val node = tree.lastSelectedPathComponent as? DefaultMutableTreeNode ?: return
+        val userObject = node.userObject
+
+        if (userObject is DocsetEntry) {
+            openEntryInBrowser(userObject)
+        }
+    }
+
     private fun debounceSearch() {
         searchDebounceTimer?.stop()
         searchDebounceTimer = Timer(300) {
@@ -118,89 +114,177 @@ class DocsetToolWindowPanel(
         searchDebounceTimer?.start()
     }
 
-    private fun onDocsetSelected() {
-        performSearch()
-    }
-
     private fun performSearch() {
         val query = searchField.text.trim()
-        val selectedDocset = docsetList.selectedValue
 
         ApplicationManager.getApplication().executeOnPooledThread {
-            val results = if (selectedDocset != null) {
-                indexService.searchInDocset(query, selectedDocset.identifier, 200)
+            val docsets = indexService.getAllDocsets()
+
+            val filteredDocsets = if (query.isEmpty()) {
+                // No search query - show all docsets with their entries
+                docsets.map { docset ->
+                    DocsetWithEntries(docset, docset.entries)
+                }
             } else {
-                indexService.searchAll(query, 200)
+                // Search query - show only matching entries under each docset
+                docsets.mapNotNull { docset ->
+                    val matchingEntries = indexService.searchInDocset(query, docset.identifier, 100)
+                    if (matchingEntries.isNotEmpty()) {
+                        DocsetWithEntries(docset, matchingEntries)
+                    } else {
+                        null
+                    }
+                }
             }
 
             SwingUtilities.invokeLater {
-                entryListModel.clear()
-                results.forEach { entryListModel.addElement(it) }
+                rebuildTree(filteredDocsets, expandAll = query.isNotEmpty())
             }
         }
     }
 
-    private fun openSelectedEntry() {
-        val entry = entryList.selectedValue ?: return
+    private data class DocsetWithEntries(val docset: Docset, val entries: List<DocsetEntry>)
+
+    private fun rebuildTree(docsetsWithEntries: List<DocsetWithEntries>, expandAll: Boolean = false) {
+        // Remember current selection
+        val selectedEntry = (tree.lastSelectedPathComponent as? DefaultMutableTreeNode)
+            ?.userObject as? DocsetEntry
+
+        rootNode.removeAllChildren()
+
+        for (dwe in docsetsWithEntries) {
+            val docsetNode = DefaultMutableTreeNode(dwe.docset)
+            for (entry in dwe.entries) {
+                docsetNode.add(DefaultMutableTreeNode(entry))
+            }
+            rootNode.add(docsetNode)
+        }
+
+        treeModel.reload()
+
+        if (expandAll) {
+            // Expand all docsets when searching
+            for (i in 0 until rootNode.childCount) {
+                val docsetNode = rootNode.getChildAt(i) as DefaultMutableTreeNode
+                tree.expandPath(TreePath(docsetNode.path))
+            }
+        }
+
+        // Try to restore selection
+        if (selectedEntry != null) {
+            selectEntry(selectedEntry, collapseOthers = false)
+        }
+    }
+
+    private fun openEntryInBrowser(entry: DocsetEntry) {
         val docset = indexService.getDocset(entry.docsetIdentifier) ?: return
 
-        val virtualFile = DocsetVirtualFile(entry, docset)
-        FileEditorManager.getInstance(project).openFile(virtualFile, true)
+        val fullPath = docset.resolveDocumentPath(entry.path).toFile()
+
+        if (fullPath.exists()) {
+            browserPanel.loadUrl(fullPath.toURI().toString())
+        }
+    }
+
+    /**
+     * Opens an entry in the browser panel and selects it in the tree.
+     * Called from external actions (e.g., FindInDocsetsAction).
+     */
+    fun openEntry(entry: DocsetEntry) {
+        // First, open in browser
+        openEntryInBrowser(entry)
+
+        // Then select in tree (this will collapse other docsets)
+        selectEntry(entry, collapseOthers = true)
+    }
+
+    /**
+     * Selects an entry in the tree, optionally collapsing other docset nodes.
+     */
+    private fun selectEntry(entry: DocsetEntry, collapseOthers: Boolean) {
+        isProgrammaticSelection = true
+        try {
+            // Find the entry node in the tree
+            for (i in 0 until rootNode.childCount) {
+                val docsetNode = rootNode.getChildAt(i) as DefaultMutableTreeNode
+                val docset = docsetNode.userObject as? Docset ?: continue
+
+                if (docset.identifier == entry.docsetIdentifier) {
+                    // Found the docset - now find the entry
+                    for (j in 0 until docsetNode.childCount) {
+                        val entryNode = docsetNode.getChildAt(j) as DefaultMutableTreeNode
+                        val nodeEntry = entryNode.userObject as? DocsetEntry ?: continue
+
+                        if (nodeEntry.name == entry.name && nodeEntry.path == entry.path) {
+                            // Found the entry - expand docset and select entry
+                            if (collapseOthers) {
+                                collapseAllDocsets()
+                            }
+                            val path = TreePath(entryNode.path)
+                            tree.expandPath(path.parentPath)
+                            tree.selectionPath = path
+                            tree.scrollPathToVisible(path)
+                            return
+                        }
+                    }
+
+                    // Entry not found in current tree (might be filtered out)
+                    // Just expand the docset
+                    if (collapseOthers) {
+                        collapseAllDocsets()
+                    }
+                    tree.expandPath(TreePath(docsetNode.path))
+                    return
+                }
+            }
+        } finally {
+            isProgrammaticSelection = false
+        }
+    }
+
+    private fun collapseAllDocsets() {
+        for (i in 0 until rootNode.childCount) {
+            val docsetNode = rootNode.getChildAt(i) as DefaultMutableTreeNode
+            tree.collapsePath(TreePath(docsetNode.path))
+        }
     }
 
     fun refreshDocsets() {
-        docsetListModel.clear()
-        indexService.getAllDocsets().forEach { docsetListModel.addElement(it) }
-
-        // Update entry list
-        if (docsetListModel.size() > 0 && docsetList.selectedIndex < 0) {
-            docsetList.selectedIndex = 0
-        }
         performSearch()
     }
 
     override fun dispose() {
         searchDebounceTimer?.stop()
+        Disposer.dispose(browserPanel)
     }
 
     /**
-     * Cell renderer for docset list items.
+     * Tree cell renderer for docsets and entries with appropriate icons.
      */
-    private class DocsetCellRenderer : DefaultListCellRenderer() {
-        override fun getListCellRendererComponent(
-            list: JList<*>?,
+    private class DocsetTreeCellRenderer : DefaultTreeCellRenderer() {
+        override fun getTreeCellRendererComponent(
+            tree: JTree?,
             value: Any?,
-            index: Int,
-            isSelected: Boolean,
-            cellHasFocus: Boolean
+            sel: Boolean,
+            expanded: Boolean,
+            leaf: Boolean,
+            row: Int,
+            hasFocus: Boolean
         ): Component {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
+            super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus)
 
-            if (value is Docset) {
-                text = "${value.name} (${value.entryCount})"
-                icon = AllIcons.Nodes.PpLib
-            }
+            val node = value as? DefaultMutableTreeNode ?: return this
+            val userObject = node.userObject
 
-            return this
-        }
-    }
-
-    /**
-     * Cell renderer for entry list items with type icons.
-     */
-    private class EntryCellRenderer : DefaultListCellRenderer() {
-        override fun getListCellRendererComponent(
-            list: JList<*>?,
-            value: Any?,
-            index: Int,
-            isSelected: Boolean,
-            cellHasFocus: Boolean
-        ): Component {
-            super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus)
-
-            if (value is DocsetEntry) {
-                text = "${value.name} (${value.type.displayName})"
-                icon = getIconForType(value.type)
+            when (userObject) {
+                is Docset -> {
+                    text = "${userObject.name} (${userObject.entryCount})"
+                    icon = AllIcons.Nodes.PpLib
+                }
+                is DocsetEntry -> {
+                    text = "${userObject.name} (${userObject.type.displayName})"
+                    icon = getIconForType(userObject.type)
+                }
             }
 
             return this
@@ -228,6 +312,20 @@ class DocsetToolWindowPanel(
                 DocsetType.BUILTIN -> AllIcons.Nodes.AbstractMethod
                 else -> AllIcons.Nodes.Unknown
             }
+        }
+    }
+
+    companion object {
+        /**
+         * Gets the DocsetToolWindowPanel instance for a project.
+         */
+        fun getInstance(project: Project): DocsetToolWindowPanel? {
+            val toolWindow = com.intellij.openapi.wm.ToolWindowManager
+                .getInstance(project)
+                .getToolWindow("Docsets") ?: return null
+
+            val content = toolWindow.contentManager.getContent(0) ?: return null
+            return content.component as? DocsetToolWindowPanel
         }
     }
 }
