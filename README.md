@@ -44,27 +44,51 @@ Compatible with docsets from [Dash](https://kapeli.com/dash) and [Zeal](https://
 
 #### Requirements
 
-- JDK 21 (JetBrains Runtime recommended)
-- Gradle 8.10+
+- **JDK 21** (JetBrains Runtime recommended, bundled with JetBrains IDEs at `<IDE>/jbr`)
+- **Gradle 8.10+** (wrapper included)
 
-#### Build Steps
+#### Build Commands
 
 ```bash
 # Clone the repository
-git clone https://github.com/VanillaFairy/clion-docset-viewer.git
-cd clion-docset-viewer
+git clone https://github.com/VanillaFairy/IntelliJ-Docset-Viewer.git
+cd IntelliJ-Docset-Viewer
 
-# Build the plugin
+# Build the plugin (output: build/distributions/*.zip)
 ./gradlew buildPlugin
 
-# The plugin ZIP will be in build/distributions/
-```
-
-#### Running Tests
-
-```bash
+# Run all tests
 ./gradlew test
+
+# Run a specific test class
+./gradlew test --tests "io.github.vanillafairy.docsetviewer.core.parser.SqliteIndexReaderTest"
+
+# Launch IDE with plugin installed for manual testing
+./gradlew runIde
+
+# Clean build artifacts
+./gradlew clean
 ```
+
+#### Versioning
+
+The plugin version is automatically derived from git tags:
+- Tag `1.2.0` or `v1.2.0` → version `1.2.0`
+- No tags → version `0.0.0-SNAPSHOT`
+
+To release a new version, create a git tag:
+```bash
+git tag 1.3.0
+git push origin 1.3.0
+./gradlew buildPlugin
+```
+
+#### Build Output
+
+| Artifact | Location |
+|----------|----------|
+| Plugin ZIP | `build/distributions/IntelliJ-docset-viewer-<version>.zip` |
+| Test reports | `build/reports/tests/test/index.html` |
 
 ## Usage
 

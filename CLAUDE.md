@@ -24,10 +24,10 @@ The project requires **JetBrains JDK 21** (or compatible JDK 21). The previous d
 ./gradlew test
 
 # Run a single test class
-./gradlew test --tests "com.github.clion.docsetviewer.core.parser.SqliteIndexReaderTest"
+./gradlew test --tests "io.github.vanillafairy.docsetviewer.core.parser.SqliteIndexReaderTest"
 
 # Run a single test method
-./gradlew test --tests "com.github.clion.docsetviewer.core.parser.SqliteIndexReaderTest.testSearchEntries"
+./gradlew test --tests "io.github.vanillafairy.docsetviewer.core.parser.SqliteIndexReaderTest.testSearchEntries"
 
 # Run IDE with plugin for manual testing
 ./gradlew runIde

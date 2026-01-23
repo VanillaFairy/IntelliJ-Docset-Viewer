@@ -1,7 +1,7 @@
 <idea-plugin>
-    <id>com.github.clion.docsetviewer</id>
+    <id>io.github.vanillafairy.docsetviewer</id>
     <name>IntelliJ Docset Viewer</name>
-    <vendor url="https://github.com/VanillaFairy/clion-docset-viewer">VanillaFairy</vendor>
+    <vendor url="https://github.com/VanillaFairy/IntelliJ-Docset-Viewer">VanillaFairy</vendor>
 
     <description><![CDATA[
     <p>View Dash/Zeal-compatible docsets directly in your JetBrains IDE.</p>
@@ -39,38 +39,38 @@
     <extensions defaultExtensionNs="com.intellij">
         <!-- Settings -->
         <applicationService
-                serviceImplementation="com.github.clion.docsetviewer.settings.DocsetSettings"/>
+                serviceImplementation="io.github.vanillafairy.docsetviewer.settings.DocsetSettings"/>
 
         <applicationConfigurable
                 parentId="tools"
-                instance="com.github.clion.docsetviewer.settings.DocsetSettingsConfigurable"
-                id="com.github.clion.docsetviewer.settings"
+                instance="io.github.vanillafairy.docsetviewer.settings.DocsetSettingsConfigurable"
+                id="io.github.vanillafairy.docsetviewer.settings"
                 displayName="Docset Viewer"/>
 
         <!-- Index Service -->
         <applicationService
-                serviceImplementation="com.github.clion.docsetviewer.core.index.DocsetIndexService"/>
+                serviceImplementation="io.github.vanillafairy.docsetviewer.core.index.DocsetIndexService"/>
 
         <!-- File Editor -->
         <fileEditorProvider
-                implementation="com.github.clion.docsetviewer.editor.DocsetFileEditorProvider"/>
+                implementation="io.github.vanillafairy.docsetviewer.editor.DocsetFileEditorProvider"/>
 
         <!-- Tool Window -->
         <toolWindow
                 id="Docsets"
                 anchor="right"
-                factoryClass="com.github.clion.docsetviewer.ui.toolwindow.DocsetToolWindowFactory"
+                factoryClass="io.github.vanillafairy.docsetviewer.ui.toolwindow.DocsetToolWindowFactory"
                 icon="AllIcons.Toolwindows.Documentation"/>
 
         <!-- Startup Activity -->
         <postStartupActivity
-                implementation="com.github.clion.docsetviewer.actions.DocsetStartupActivity"/>
+                implementation="io.github.vanillafairy.docsetviewer.actions.DocsetStartupActivity"/>
     </extensions>
 
     <actions>
         <!-- Find in Docsets - editor action with context menu and shortcut -->
         <action id="DocsetViewer.FindInDocsets"
-                class="com.github.clion.docsetviewer.actions.FindInDocsetsAction"
+                class="io.github.vanillafairy.docsetviewer.actions.FindInDocsetsAction"
                 text="Find in Docsets"
                 description="Search for the current token in documentation">
             <keyboard-shortcut first-keystroke="F1" keymap="$default"/>
@@ -89,12 +89,12 @@
             <add-to-group group-id="ToolsMenu" anchor="last"/>
 
             <action id="DocsetViewer.OpenDocset"
-                    class="com.github.clion.docsetviewer.actions.OpenDocsetAction"
+                    class="io.github.vanillafairy.docsetviewer.actions.OpenDocsetAction"
                     text="Add Docset..."
                     description="Add a docset folder"/>
 
             <action id="DocsetViewer.SearchDocset"
-                    class="com.github.clion.docsetviewer.actions.SearchDocsetAction"
+                    class="io.github.vanillafairy.docsetviewer.actions.SearchDocsetAction"
                     text="Search Docsets"
                     description="Search across all docsets">
                 <keyboard-shortcut first-keystroke="control alt D" keymap="$default"/>
