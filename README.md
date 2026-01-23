@@ -44,7 +44,7 @@ Compatible with docsets from [Dash](https://kapeli.com/dash) and [Zeal](https://
 
 #### Requirements
 
-- JDK 17 or later
+- JDK 21 (JetBrains Runtime recommended)
 - Gradle 8.10+
 
 #### Build Steps
@@ -96,6 +96,8 @@ The plugin will search for the token under your caret and:
 |--------|----------|
 | Find in Docsets | F1, Ctrl+Shift+D |
 | Search Docsets | Ctrl+Alt+D |
+
+> **Note:** Some shortcuts like F1 may already be assigned to other actions (e.g., Quick Documentation). When multiple actions share a shortcut, the IDE executes the one with the highest priority. To customize this, go to **Settings > Keymap**, search for "Find in Docsets", and assign your preferred shortcut or remove conflicting bindings.
 
 ### Tool Window
 
