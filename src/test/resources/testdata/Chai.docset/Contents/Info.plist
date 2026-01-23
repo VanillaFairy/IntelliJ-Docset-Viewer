@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plist version="1.0">
+<dict>
+<key>CFBundleIdentifier</key>
+<string>chai</string><key>DashDocSetFamily</key><string>unsorteddashtoc</string><key>isJavaScriptEnabled</key><true/><key>dashIndexFilePath</key><string>www.chaijs.com/api/index.html</string>
+<key>CFBundleName</key>
+<string>Chai</string>
+<key>DocSetPlatformFamily</key>
+<string>chai</string>
+<key>isDashDocset</key><true/></dict>
+</plist>
+

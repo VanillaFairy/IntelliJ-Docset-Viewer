@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'org.jetbrains.kotlin.jvm' version '1.9.25'
+    id 'org.jetbrains.intellij.platform' version '2.2.1'
+}
+
+group = 'com.github.clion.docsetviewer'
+version = '1.2.0'
+
+repositories {
+    mavenCentral()
+    intellijPlatform {
+        defaultRepositories()
+    }
+}
+
+kotlin {
+    jvmToolchain(17)
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+dependencies {
+    implementation 'org.xerial:sqlite-jdbc:3.45.1.0'
+
+    intellijPlatform {
+        intellijIdeaCommunity '2024.1'
+        instrumentationTools()
+    }
+
+    testImplementation 'junit:junit:4.13.2'
+    testImplementation 'org.mockito.kotlin:mockito-kotlin:5.2.1'
+    testImplementation 'org.assertj:assertj-core:3.25.1'
+}
+
+intellijPlatform {
+    pluginConfiguration {
+        name = 'IntelliJ Docset Viewer'
+        version = project.version
+
+        ideaVersion {
+            sinceBuild = '241'
+            untilBuild = '253.*'
+        }
+    }
+}
+
+tasks.named('test') {
+    useJUnit()
+}

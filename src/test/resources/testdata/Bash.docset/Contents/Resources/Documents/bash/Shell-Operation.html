@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This text is a brief description of the features that are present in
+the Bash shell (version 5.3, 18 May 2025).
+
+This is Edition 5.3, last updated 18 May 2025,
+of The GNU Bash Reference Manual,
+for Bash, Version 5.3.
+
+Copyright © 1988-2025 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<title>Shell Operation</title>
+
+<meta name="description" content="Shell Operation (Bash Reference Manual)">
+<meta name="keywords" content="Shell Operation (Bash Reference Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Indexes.html" rel="index" title="Indexes">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Shell-Syntax.html" rel="up" title="Shell Syntax">
+<link href="Quoting.html" rel="next" title="Quoting">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Shell-Operation">
+<div class="nav-panel">
+<p>
+Next: <a href="Quoting.html" accesskey="n" rel="next">Quoting</a>, Up: <a href="Shell-Syntax.html" accesskey="u" rel="up">Shell Syntax</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Shell-Operation-1"><span>3.1.1 Shell Operation<a class="copiable-link" href="#Shell-Operation-1"> &para;</a></span></h4>
+
+<p>The following is a brief description of the shell&rsquo;s operation when it
+reads and executes a command.
+Basically, the shell does the following:
+</p>
+<ol class="enumerate">
+<li> Reads its input from a file (see <a class="pxref" href="Shell-Scripts.html">Shell Scripts</a>), from a string
+supplied as an argument to the <samp class="option">-c</samp> invocation option
+(see <a class="pxref" href="Invoking-Bash.html">Invoking Bash</a>), or from the user&rsquo;s terminal.
+
+</li><li> Breaks the input into words and operators, obeying the quoting rules
+described in <a class="ref" href="Quoting.html">Quoting</a>.
+These tokens are separated by <code class="code">metacharacters</code>.
+This step performs alias expansion (see <a class="pxref" href="Aliases.html">Aliases</a>).
+
+</li><li> Parses the tokens into simple and compound commands
+(see <a class="pxref" href="Shell-Commands.html">Shell Commands</a>).
+
+</li><li> Performs the various shell expansions (see <a class="pxref" href="Shell-Expansions.html">Shell Expansions</a>), breaking
+the expanded tokens into lists of filenames (see <a class="pxref" href="Filename-Expansion.html">Filename Expansion</a>)
+and commands and arguments.
+
+</li><li> Performs any necessary redirections (see <a class="pxref" href="Redirections.html">Redirections</a>) and removes
+the redirection operators and their operands from the argument list.
+
+</li><li> Executes the command (see <a class="pxref" href="Executing-Commands.html">Executing Commands</a>).
+
+</li><li> Optionally waits for the command to complete and collects its exit
+status (see <a class="pxref" href="Exit-Status.html">Exit Status</a>).
+
+</li></ol>
+
+</div>
+
+
+
+</body>
+</html>

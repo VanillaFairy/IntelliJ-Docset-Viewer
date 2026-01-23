@@ -1,0 +1,531 @@
+<html><!-- Mirrored from www.chaijs.com/guide/styles/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:13 GMT --><!-- Added by HTTrack --><head><meta http-equiv="content-type" content="text/html;charset=utf-8"><!-- /Added by HTTrack -->
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Assertion Styles</title>
+    <meta name="description" content="Assertion Styles">
+
+    <link rel="icon" type="image/x-icon" href="../../img/favicon.ico">
+    <link rel="canonical" href="index.html">
+
+    <script type="text/javascript" async="" src="http://www.google-analytics.com/ga.js"></script><script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../js/jquery-mousewheel.js"></script>
+    <script src="../../js/antiscroll.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../chai.js"></script>
+
+    <link rel="stylesheet" ,="" href="../../css/antiscroll.css" type="text/css" media="all">
+    <link rel="stylesheet" ,="" href="../../css/main.css" type="text/css" media="all">
+    <script type="text/javascript">
+        var mpq = [];
+        mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
+        (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+        b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+        ""exit/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+        [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+        "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+        d.length;c++){mpq[d[c]]=e(d[c])}})();
+    </script>
+    <script type="text/javascript">
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26183904-6']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+
+
+  <body class="guide">
+
+    <nav id="primary">
+    <div class="nav-wrap">
+        <div class="logo">
+            <h1><a href="https://www.chaijs.com/">Chai Assertion Library</a></h1>
+        </div>
+        <div class="navlist">
+            <ul>
+                <li><a href="../index.html">Guide</a></li>
+                <li><a href="../../api/index.html">API</a></li>
+                <li><a href="https://www.chaijs.com/plugins">Plugins</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+
+    <div class="content">
+      <section id="content">
+        <nav id="guide" class="sidebar sticky">
+
+    
+    
+      
+      
+      
+      
+      <div id="getting-started-guide" class="item primary">
+          
+            <span class="star"></span>
+          
+          <a href="../index.html" class="title">Getting Started Guide</a>
+      </div>
+      
+      
+        <div class="line"></div>
+      
+    
+      
+      
+      
+      
+      <div id="installation" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../installation/index.html" class="title">Installation</a>
+      </div>
+      
+      <div id="installation" class="subitems">
+          
+          
+          <a href="../installation/index.html#nodejs" class="item secondary group-installation">Node.js</a>
+          
+          
+          <a href="../installation/index.html#browser" class="item secondary group-installation">Browser</a>
+          
+          
+          <a href="../installation/index.html#other-platforms" class="item secondary group-installation">Other Platforms</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="assertion-styles" class="item primary active expanded">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="index.html" class="title">Assertion Styles</a>
+      </div>
+      
+      <div id="assertion-styles" class="subitems">
+          
+          
+          <a href="index.html#assert" class="item secondary group-assertion-styles expanded">Assert</a>
+          
+          
+          <a href="index.html#expect" class="item secondary group-assertion-styles expanded">Expect</a>
+          
+          
+          <a href="index.html#should" class="item secondary group-assertion-styles expanded">Should</a>
+          
+          
+          <a href="index.html#differences" class="item secondary group-assertion-styles expanded">Differences</a>
+          
+          
+          <a href="index.html#should-extras" class="item secondary group-assertion-styles expanded">Should Extras</a>
+          
+          
+          <a href="index.html#configuration" class="item secondary group-assertion-styles expanded">Configuration</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="using-chai-with-esm-and-plugins" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html" class="title">Using Chai with ESM and Plugins</a>
+      </div>
+      
+      <div id="using-chai-with-esm-and-plugins" class="subitems">
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#importing-chai" class="item secondary group-using-chai-with-esm-and-plugins">Importing Chai</a>
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#using-plugins" class="item secondary group-using-chai-with-esm-and-plugins">Using Plugins</a>
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#exposing-globals-in-plugins" class="item secondary group-using-chai-with-esm-and-plugins">Exposing Globals in Plugins</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="core-plugin-concepts" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../plugins/index.html" class="title">Core Plugin Concepts</a>
+      </div>
+      
+      <div id="core-plugin-concepts" class="subitems">
+          
+          
+          <a href="../plugins/index.html#accessing-utilities" class="item secondary group-core-plugin-concepts">Accessing Utilities</a>
+          
+          
+          <a href="../plugins/index.html#using-flags" class="item secondary group-core-plugin-concepts">Using Flags</a>
+          
+          
+          <a href="../plugins/index.html#composing-an-assertion" class="item secondary group-core-plugin-concepts">Composing an Assertion</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="building-a-helper" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../helpers/index.html" class="title">Building a Helper</a>
+      </div>
+      
+      <div id="building-a-helper" class="subitems">
+          
+          
+          <a href="../helpers/index.html#adding-language-chains" class="item secondary group-building-a-helper">Adding Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#adding-properties" class="item secondary group-building-a-helper">Adding Properties</a>
+          
+          
+          <a href="../helpers/index.html#adding-methods" class="item secondary group-building-a-helper">Adding Methods</a>
+          
+          
+          <a href="../helpers/index.html#methods-as-properties" class="item secondary group-building-a-helper">Methods as Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-language-chains" class="item secondary group-building-a-helper">Overwriting Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-properties" class="item secondary group-building-a-helper">Overwriting Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-methods" class="item secondary group-building-a-helper">Overwriting Methods</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="resources" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../resources/index.html" class="title">Resources</a>
+      </div>
+      
+      <div id="resources" class="subitems">
+          
+          
+          <a href="../resources/index.html#getting-help" class="item secondary group-resources">Getting Help</a>
+          
+          
+          <a href="../resources/index.html#contributing" class="item secondary group-resources">Contributing</a>
+          
+      </div>
+      
+      
+    
+</nav>
+<div class="documentation">
+    <div class="wrap">
+        <div class="rendered">
+            <h1 id="assertion-styles">Assertion Styles</h1>
+
+<p>This section of the guide introduces you to the three different assertion styles that you may use in your testing environment. Once you have made your selection, it is recommended that you look at the API Documentation for your selected style.</p>
+
+<h2 id="assert">Assert</h2>
+
+<p><a href="../../api/assert/index.html" class="clean-button">View full Assert API</a></p>
+
+<p>The assert style is exposed through <code class="language-js highlighter-rouge"><span class="nx">assert</span></code> interface. This provides
+the classic assert-dot notation, similar to that packaged with
+node.js. This assert module, however, provides several additional
+tests and is browser compatible.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">assert</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">beverages</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tea</span><span class="p">:</span> <span class="p">[</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">matcha</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">oolong</span><span class="dl">'</span> <span class="p">]</span> <span class="p">};</span>
+
+<span class="nx">assert</span><span class="p">.</span><span class="nx">typeOf</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// without optional message</span>
+<span class="nx">assert</span><span class="p">.</span><span class="nx">typeOf</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">foo is a string</span><span class="dl">'</span><span class="p">);</span> <span class="c1">// with optional message</span>
+<span class="nx">assert</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">foo equal `bar`</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">assert</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="nx">foo</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="dl">'</span><span class="s1">foo`s value has a length of 3</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">assert</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="nx">beverages</span><span class="p">.</span><span class="nx">tea</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="dl">'</span><span class="s1">beverages has 3 types of tea</span><span class="dl">'</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>In all cases, the assert style allows you to include an optional message as the
+last parameter in the <code class="language-js highlighter-rouge"><span class="nx">assert</span></code> statement. These will be included in the
+error messages should your assertion not pass.</p>
+
+<h2 id="bdd">BDD</h2>
+
+<p><a href="../../api/bdd/index.html" class="clean-button">View full BDD API</a></p>
+
+<p>The BDD style comes in two flavors: <code class="language-js highlighter-rouge"><span class="nx">expect</span></code> and <code class="language-js highlighter-rouge"><span class="nx">should</span></code>. Both use the same
+chainable language to construct assertions, but they differ in the way an
+assertion is initially constructed. In the case of <code class="language-js highlighter-rouge"><span class="nx">should</span></code>, there are also
+some caveats and additional tools to overcome the caveats.</p>
+
+<h3 id="expect">Expect</h3>
+
+<p>The BDD style is exposed through <code class="language-js highlighter-rouge"><span class="nx">expect</span></code> or <code class="language-js highlighter-rouge"><span class="nx">should</span></code> interfaces. In both
+scenarios, you chain together natural language assertions.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">expect</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">beverages</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tea</span><span class="p">:</span> <span class="p">[</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">matcha</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">oolong</span><span class="dl">'</span> <span class="p">]</span> <span class="p">};</span>
+
+<span class="nx">expect</span><span class="p">(</span><span class="nx">foo</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">foo</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">foo</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">beverages</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="dl">'</span><span class="s1">tea</span><span class="dl">'</span><span class="p">).</span><span class="kd">with</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>Expect also allows you to include arbitrary messages to prepend to any failed
+assertions that might occur.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">answer</span> <span class="o">=</span> <span class="mi">43</span><span class="p">;</span>
+
+<span class="c1">// AssertionError: expected 43 to equal 42.</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">answer</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+
+<span class="c1">// AssertionError: topic [answer]: expected 43 to equal 42.</span>
+<span class="nx">expect</span><span class="p">(</span><span class="nx">answer</span><span class="p">,</span> <span class="dl">'</span><span class="s1">topic [answer]</span><span class="dl">'</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>This comes in handy when being used with non-descript topics such as
+booleans or numbers.</p>
+
+<h3 id="should">Should</h3>
+
+<p>The <code class="language-js highlighter-rouge"><span class="nx">should</span></code> style allows for the same chainable assertions as the
+<code class="language-js highlighter-rouge"><span class="nx">expect</span></code> interface, however it extends each object with a <code class="language-js highlighter-rouge"><span class="nx">should</span></code>
+property to start your chain. This style has some issues when used with Internet
+Explorer, so be aware of browser compatibility.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">should</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">should</span><span class="p">();</span> <span class="c1">//actually call the function</span>
+
+<span class="kd">const</span> <span class="nx">foo</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">beverages</span> <span class="o">=</span> <span class="p">{</span> <span class="na">tea</span><span class="p">:</span> <span class="p">[</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">matcha</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">oolong</span><span class="dl">'</span> <span class="p">]</span> <span class="p">};</span>
+
+<span class="nx">foo</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">a</span><span class="p">(</span><span class="dl">'</span><span class="s1">string</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">);</span>
+<span class="nx">foo</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+<span class="nx">beverages</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">property</span><span class="p">(</span><span class="dl">'</span><span class="s1">tea</span><span class="dl">'</span><span class="p">).</span><span class="kd">with</span><span class="p">.</span><span class="nx">lengthOf</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
+</code></pre></div></div>
+
+<h3 id="differences">Differences</h3>
+
+<p>First of all, notice that the <code class="language-js highlighter-rouge"><span class="nx">expect</span></code> require is just a reference to the
+<code class="language-js highlighter-rouge"><span class="nx">expect</span></code> function, whereas with the <code class="language-js highlighter-rouge"><span class="nx">should</span></code> require, the function is
+being executed.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">chai</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="p">{</span><span class="nx">expect</span><span class="p">}</span> <span class="o">=</span> <span class="nx">chai</span><span class="p">;</span>
+<span class="kd">const</span> <span class="nx">should</span> <span class="o">=</span> <span class="nx">chai</span><span class="p">.</span><span class="nx">should</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The <code class="language-js highlighter-rouge"><span class="nx">expect</span></code> interface provides a function as a starting point for chaining
+your language assertions. It works on node.js and in all browsers.</p>
+
+<p>The <code class="language-js highlighter-rouge"><span class="nx">should</span></code> interface extends <code class="language-js highlighter-rouge"><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span></code> to provide a single getter as
+the starting point for your language assertions. It works on node.js and in
+all modern browsers except Internet Explorer.</p>
+
+<h3 id="should-extras">Should Extras</h3>
+
+<p>Given that <code class="language-js highlighter-rouge"><span class="nx">should</span></code> works by extending <code class="language-js highlighter-rouge"><span class="nb">Object</span><span class="p">.</span><span class="nx">prototype</span></code>, there are
+some scenarios where <code class="language-js highlighter-rouge"><span class="nx">should</span></code> will not work. Mainly, if you are trying
+to check the existence of an object. Take the following pseudocode:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">db</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">1234</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// we expect error to not exist</span>
+  <span class="c1">// we expect doc to exist and be an object</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Given that <code class="language-js highlighter-rouge"><span class="nx">err</span></code> should be null or undefined, <code class="language-js highlighter-rouge"><span class="nx">err</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">exist</span></code> is
+not a valid statement as <code class="language-js highlighter-rouge"><span class="kc">undefined</span></code> and <code class="language-js highlighter-rouge"><span class="kc">null</span></code> haven’t been extended
+with a <code class="language-js highlighter-rouge"><span class="nx">should</span></code> chain starter. As such, the appropriate few assertions
+for this scenario are as follows:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span><span class="nx">should</span> <span class="k">as</span> <span class="nx">loadShould</span><span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">should</span> <span class="o">=</span> <span class="nx">loadShould</span><span class="p">();</span>
+
+<span class="nx">db</span><span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="mi">1234</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">doc</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">should</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">exist</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+  <span class="nx">should</span><span class="p">.</span><span class="nx">exist</span><span class="p">(</span><span class="nx">doc</span><span class="p">);</span>
+  <span class="nx">doc</span><span class="p">.</span><span class="nx">should</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">an</span><span class="p">(</span><span class="dl">'</span><span class="s1">object</span><span class="dl">'</span><span class="p">);</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>Provided you assigned <code class="language-js highlighter-rouge"><span class="nx">should</span></code> to a var, you have access to several
+quick helpers to keep you out of trouble when using <code class="language-js highlighter-rouge"><span class="nx">should</span></code>.</p>
+
+<ul>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">exist</span></code></li>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">exist</span></code></li>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">equal</span></code></li>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">equal</span></code></li>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">Throw</span></code></li>
+  <li><code class="language-js highlighter-rouge"><span class="nx">should</span><span class="p">.</span><span class="nx">not</span><span class="p">.</span><span class="nx">Throw</span></code></li>
+</ul>
+
+<h3 id="using-should-in-es2015">Using Should in ES2015</h3>
+
+<p>It isn’t possible to chain a function call from an ES2015 <code class="language-js highlighter-rouge"><span class="k">import</span></code>
+statement – it has to go on its own line, which looks a little
+verbose:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">chai</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+<span class="nx">chai</span><span class="p">.</span><span class="nx">should</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>For a cleaner look, you can do this instead:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="dl">'</span><span class="s1">chai/register-should</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="configuration">Configuration</h2>
+
+<a class="dashAnchor" name="//apple_ref/Method/includeStack"></a><h3 id="configincludestack">config.includeStack</h3>
+
+<ul>
+  <li><strong>@param</strong> <em>{Boolean}</em></li>
+  <li><strong>@default</strong> <code class="language-js highlighter-rouge"><span class="kc">false</span></code></li>
+</ul>
+
+<p>User configurable property, influences whether stack trace is included in
+Assertion error message. Default of <code class="language-js highlighter-rouge"><span class="kc">false</span></code> suppresses stack trace in the error
+message.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">chai</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">includeStack</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span> <span class="c1">// turn on stack trace</span>
+</code></pre></div></div>
+
+<a class="dashAnchor" name="//apple_ref/Method/showDiff"></a><h3 id="configshowdiff">config.showDiff</h3>
+
+<ul>
+  <li><strong>@param</strong> <em>{Boolean}</em></li>
+  <li><strong>@default</strong> <code class="language-js highlighter-rouge"><span class="kc">true</span></code></li>
+</ul>
+
+<p>User configurable property, influences whether or not the <code class="language-js highlighter-rouge"><span class="nx">showDiff</span></code> flag
+should be included in the thrown AssertionErrors. <code class="language-js highlighter-rouge"><span class="kc">false</span></code> will always be <code class="language-js highlighter-rouge"><span class="kc">false</span></code>;
+<code class="language-js highlighter-rouge"><span class="kc">true</span></code> will be true when the assertion has requested a diff be shown.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">chai</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">showDiff</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span> <span class="c1">// turn off reporter diff display</span>
+</code></pre></div></div>
+
+<a class="dashAnchor" name="//apple_ref/Method/truncateThreshold"></a><h3 id="configtruncatethreshold">config.truncateThreshold</h3>
+
+<ul>
+  <li><strong>@param</strong> <em>{Number}</em></li>
+  <li><strong>@default</strong> <code class="language-js highlighter-rouge"><span class="mi">40</span></code></li>
+</ul>
+
+<p>User configurable property, sets length threshold for actual and expected values
+in assertion errors. If this threshold is exceeded, the value is truncated.</p>
+
+<p>Set it to zero if you want to disable truncating altogether.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">chai</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">truncateThreshold</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="c1">// disable truncating</span>
+</code></pre></div></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../js/guide.js"></script>
+
+      </section>
+    </div>
+
+    <footer>
+    <section id="footer">
+        <div class="branding">
+            <h3 class="fancy">
+                <a href="https://www.chaijs.com/">Chai Assertion Library</a>
+            </h3>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../installation/index.html">Installation</a></li>
+                <li><a href="index.html">Interface Styles</a></li>
+                <li><a href="../plugins/index.html">Developing Plugins</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../../api/bdd/index.html">Expect / Should API</a></li>
+                <li><a href="../../api/assert/index.html">Assert API</a></li>
+                <li><a href="../../api/plugins/index.html">Plugin Utility API</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../resources/index.html">Getting Help</a></li>
+                <li><a href="../../api/test/index.html">Test Suite</a></li>
+                <li><a href="https://www.chaijs.com/releases" target="_blank">Releases</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="https://github.com/chaijs/chai/issues" target="_blank">Issues</a></li>
+                <li><a href="https://groups.google.com/group/chaijs" target="_blank">Google Group</a></li>
+                <li><a href="https://github.com/chaijs/chai/actions" target="_blank">Build Status</a></li>
+            </ul>
+        </div>
+    </section>
+</footer>
+
+
+  
+
+
+
+
+</body><!-- Mirrored from www.chaijs.com/guide/styles/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:14 GMT --></html>

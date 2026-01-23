@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This text is a brief description of the features that are present in
+the Bash shell (version 5.3, 18 May 2025).
+
+This is Edition 5.3, last updated 18 May 2025,
+of The GNU Bash Reference Manual,
+for Bash, Version 5.3.
+
+Copyright © 1988-2025 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<title>Locale Translation</title>
+
+<meta name="description" content="Locale Translation (Bash Reference Manual)">
+<meta name="keywords" content="Locale Translation (Bash Reference Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Indexes.html" rel="index" title="Indexes">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Quoting.html" rel="up" title="Quoting">
+<link href="ANSI_002dC-Quoting.html" rel="prev" title="ANSI-C Quoting">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="">
+
+
+</head>
+
+<body lang="en">
+<div class="subsubsection-level-extent" id="Locale-Translation">
+<div class="nav-panel">
+<p>
+Previous: <a href="ANSI_002dC-Quoting.html" accesskey="p" rel="prev">ANSI-C Quoting</a>, Up: <a href="Quoting.html" accesskey="u" rel="up">Quoting</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsubsection" id="Locale_002dSpecific-Translation"><span>3.1.2.5 Locale-Specific Translation<a class="copiable-link" href="#Locale_002dSpecific-Translation"> &para;</a></span></h4>
+<a class="index-entry-id" id="index-localization"></a>
+<a class="index-entry-id" id="index-internationalization"></a>
+<a class="index-entry-id" id="index-native-languages"></a>
+<a class="index-entry-id" id="index-translation_002c-native-languages"></a>
+
+<p>Prefixing a double-quoted string with a dollar sign (&lsquo;<samp class="samp">$</samp>&rsquo;), such
+as <code class="verb">$&quot;hello,&nbsp;world&quot;</code>,
+causes the string to be translated according to the current locale.
+The <code class="code">gettext</code> infrastructure performs the lookup and 
+translation, using the <code class="code">LC_MESSAGES</code>, <code class="code">TEXTDOMAINDIR</code>,
+and <code class="code">TEXTDOMAIN</code> shell variables, as explained below.
+See the gettext documentation for additional details not covered here.
+If the current locale is <code class="code">C</code> or <code class="code">POSIX</code>,
+if there are no translations available,
+or if the string is not translated, the dollar sign is ignored,
+and the string is treated as double-quoted as described above.
+Since this is a form of double quoting, the string remains double-quoted
+by default, whether or not it is translated and replaced.
+If the <code class="code">noexpand_translation</code> option is enabled
+using the <code class="code">shopt</code> builtin (see <a class="pxref" href="The-Shopt-Builtin.html">The Shopt Builtin</a>),
+translated strings are single-quoted instead of double-quoted.
+</p>
+<p>The rest of this section is a brief overview of how you use gettext to
+create translations for strings in a shell script named <var class="var">scriptname</var>.
+There are more details in the gettext documentation.
+</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,1142 @@
+<html><!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ --><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This text is a brief description of the features that are present in
+the Bash shell (version 5.3, 18 May 2025).
+
+This is Edition 5.3, last updated 18 May 2025,
+of The GNU Bash Reference Manual,
+for Bash, Version 5.3.
+
+Copyright © 1988-2025 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<title>Bash Builtins</title>
+
+<meta name="description" content="Bash Builtins (Bash Reference Manual)">
+<meta name="keywords" content="Bash Builtins (Bash Reference Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Indexes.html" rel="index" title="Indexes">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Shell-Builtin-Commands.html" rel="up" title="Shell Builtin Commands">
+<link href="Modifying-Shell-Behavior.html" rel="next" title="Modifying Shell Behavior">
+<link href="Bourne-Shell-Builtins.html" rel="prev" title="Bourne Shell Builtins">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Bash-Builtins">
+<div class="nav-panel">
+<p>
+Next: <a href="Modifying-Shell-Behavior.html" accesskey="n" rel="next">Modifying Shell Behavior</a>, Previous: <a href="Bourne-Shell-Builtins.html" accesskey="p" rel="prev">Bourne Shell Builtins</a>, Up: <a href="Shell-Builtin-Commands.html" accesskey="u" rel="up">Shell Builtin Commands</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Bash-Builtin-Commands"><span>4.2 Bash Builtin Commands<a class="copiable-link" href="#Bash-Builtin-Commands"> ¶</a></span></h3>
+
+<p>This section describes builtin commands which are unique to
+or have been extended in Bash.
+Some of these commands are specified in the <small class="sc">POSIX</small> standard.
+</p>
+<dl class="table">
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/alias"></a><a id="index-alias"></a><span><code class="code">alias</code><a class="copiable-link" href="#index-alias"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">alias [-p] [<var class="var">name</var>[=<var class="var">value</var>] ...]
+</pre></div>
+
+<p>Without arguments or with the <samp class="option">-p</samp> option, <code class="code">alias</code> prints
+the list of aliases on the standard output in a form that allows
+them to be reused as input.
+If arguments are supplied, define an alias for each <var class="var">name</var>
+whose <var class="var">value</var> is given.
+If no <var class="var">value</var> is given, print the name and value of the alias <var class="var">name</var>.
+A trailing space in <var class="var">value</var> causes the next word to be
+checked for alias substitution when the alias is expanded
+during command parsing.
+<code class="code">alias</code> returns true unless a <var class="var">name</var> is given
+(without a corresponding =<var class="var">value</var>)
+for which no alias has been defined.
+Aliases are described in <a class="ref" href="Aliases.html">Aliases</a>.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/bind"></a><a id="index-bind"></a><span><code class="code">bind</code><a class="copiable-link" href="#index-bind"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">bind [-m <var class="var">keymap</var>] [-lsvSVX]
+bind [-m <var class="var">keymap</var>] [-q <var class="var">function</var>] [-u <var class="var">function</var>] [-r <var class="var">keyseq</var>]
+bind [-m <var class="var">keymap</var>] -f <var class="var">filename</var>
+bind [-m <var class="var">keymap</var>] -x <var class="var">keyseq[: ]shell-command</var>
+bind [-m <var class="var">keymap</var>] <var class="var">keyseq:function-name</var>
+bind [-m <var class="var">keymap</var>] <var class="var">keyseq:readline-command</var>
+bind [-m <var class="var">keymap</var>] -p|-P [<var class="var">readline-command</var>]
+bind <var class="var">readline-command-line</var>
+</pre></div>
+
+<p>Display current Readline (see <a class="pxref" href="Command-Line-Editing.html">Command Line Editing</a>)
+key and function bindings,
+bind a key sequence to a Readline function or macro
+or to a shell command,
+or set a Readline variable.
+Each non-option argument is a key binding or command as it would appear in a
+Readline initialization file (see <a class="pxref" href="Readline-Init-File.html">Readline Init File</a>),
+but each binding or command must be passed as a separate argument;  e.g.,
+‘<samp class="samp">"\C-x\C-r":re-read-init-file</samp>’.
+</p>
+<p>In the following descriptions, options that display output in a form
+available to be re-read format their output
+as commands that would appear in a Readline initialization file or
+that would be supplied as individual arguments to a <code class="code">bind</code> command.
+</p>
+<p>Options, if supplied, have the following meanings:
+</p>
+<dl class="table">
+<dt><code class="code">-m <var class="var">keymap</var></code></dt>
+<dd><p>Use <var class="var">keymap</var> as the keymap to be affected by
+the subsequent bindings.  Acceptable <var class="var">keymap</var>
+names are
+<code class="code">emacs</code>,
+<code class="code">emacs-standard</code>,
+<code class="code">emacs-meta</code>,
+<code class="code">emacs-ctlx</code>,
+<code class="code">vi</code>,
+<code class="code">vi-move</code>,
+<code class="code">vi-command</code>, and
+<code class="code">vi-insert</code>.
+<code class="code">vi</code> is equivalent to <code class="code">vi-command</code>
+(<code class="code">vi-move</code> is also a synonym);
+<code class="code">emacs</code> is equivalent to <code class="code">emacs-standard</code>.
+</p>
+</dd>
+<dt><code class="code">-l</code></dt>
+<dd><p>List the names of all Readline functions.
+</p>
+</dd>
+<dt><code class="code">-p</code></dt>
+<dd><p>Display Readline function names and bindings
+in such a way that they can be used as an argument to a subsequent
+<code class="code">bind</code> command or in a Readline initialization file.
+If arguments remain after option processing, <code class="code">bind</code> treats
+them as readline command names and restricts output to those names.
+</p>
+</dd>
+<dt><code class="code">-P</code></dt>
+<dd><p>List current Readline function names and bindings.
+If arguments remain after option processing, <code class="code">bind</code> treats
+them as readline command names and restricts output to those names.
+</p>
+</dd>
+<dt><code class="code">-s</code></dt>
+<dd><p>Display Readline key sequences bound to macros and the strings
+they output in such a way that they can be used as
+an argument to a subsequent <code class="code">bind</code> command
+or in a Readline initialization file.
+</p>
+</dd>
+<dt><code class="code">-S</code></dt>
+<dd><p>Display Readline key sequences bound to macros and the strings they output.
+</p>
+</dd>
+<dt><code class="code">-v</code></dt>
+<dd><p>Display Readline variable names and values
+in such a way that they can be used as
+an argument to a subsequent <code class="code">bind</code> command
+or in a Readline initialization file.
+</p>
+</dd>
+<dt><code class="code">-V</code></dt>
+<dd><p>List current Readline variable names and values.
+</p>
+</dd>
+<dt><code class="code">-f <var class="var">filename</var></code></dt>
+<dd><p>Read key bindings from <var class="var">filename</var>.
+</p>
+</dd>
+<dt><code class="code">-q <var class="var">function</var></code></dt>
+<dd><p>Display key sequences that invoke the named Readline <var class="var">function</var>.
+</p>
+</dd>
+<dt><code class="code">-u <var class="var">function</var></code></dt>
+<dd><p>Unbind all key sequences bound to the named Readline <var class="var">function</var>.
+</p>
+</dd>
+<dt><code class="code">-r <var class="var">keyseq</var></code></dt>
+<dd><p>Remove any current binding for <var class="var">keyseq</var>.
+</p>
+</dd>
+<dt><code class="code">-x <var class="var">keyseq:shell-command</var></code></dt>
+<dd><p>Cause <var class="var">shell-command</var> to be executed whenever <var class="var">keyseq</var> is
+entered.
+The separator between <var class="var">keyseq</var> and <var class="var">shell-command</var> is either
+whitespace or a colon optionally followed by whitespace.
+If the separator is whitespace, <var class="var">shell-command</var>
+must be enclosed in double quotes and Readline expands any of its
+special backslash-escapes in <var class="var">shell-command</var> before saving it.
+If the separator is a colon, any enclosing double quotes are optional, and
+Readline does not expand the command string before saving it.
+Since the entire key binding expression must be a single argument, it
+should be enclosed in single quotes.
+When <var class="var">shell-command</var> is executed, the shell sets the
+<code class="code">READLINE_LINE</code> variable to the contents of the Readline line
+buffer
+and the
+<code class="code">READLINE_POINT</code> and <code class="code">READLINE_MARK</code>
+variables to the current location of the insertion point and the saved
+insertion point (the <var class="var">mark</var>), respectively.
+The shell assigns any numeric argument the user supplied to the
+<code class="code">READLINE_ARGUMENT</code> variable.
+If there was no argument, that variable is not set.
+If the executed command changes the value of any of
+<code class="code">READLINE_LINE</code>, <code class="code">READLINE_POINT</code>, or <code class="code">READLINE_MARK</code>,
+those new values will be reflected in the editing state.
+</p>
+</dd>
+<dt><code class="code">-X</code></dt>
+<dd><p>List all key sequences bound to shell commands and the associated commands
+in a format that can be reused as
+an argument to a subsequent <code class="code">bind</code> command.
+</p></dd>
+</dl>
+
+<p>The return status is zero unless an invalid option is supplied or an
+error occurs.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/builtin"></a><a id="index-builtin"></a><span><code class="code">builtin</code><a class="copiable-link" href="#index-builtin"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">builtin [<var class="var">shell-builtin</var> [<var class="var">args</var>]]
+</pre></div>
+
+<p>Execute the specified shell builtin <var class="var">shell-builtin</var>,
+passing it <var class="var">args</var>, and return its exit status.
+This is useful when defining a shell function with the same
+name as a shell builtin,
+retaining the functionality of the builtin within the function.
+The return status is non-zero if <var class="var">shell-builtin</var> is not a shell
+builtin command.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/caller"></a><a id="index-caller"></a><span><code class="code">caller</code><a class="copiable-link" href="#index-caller"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">caller [<var class="var">expr</var>]
+</pre></div>
+
+<p>Returns the context of any active subroutine call (a shell function or
+a script executed with the <code class="code">.</code> or <code class="code">source</code> builtins).
+</p>
+<p>Without <var class="var">expr</var>, <code class="code">caller</code> displays the line number and source
+filename of the current subroutine call.
+If a non-negative integer is supplied as <var class="var">expr</var>, <code class="code">caller</code>
+displays the line number, subroutine name, and source file corresponding
+to that position in the current execution call stack.
+This extra information may be used, for example, to print a stack trace.
+The current frame is frame 0.
+</p>
+<p>The return value is 0 unless the shell is not executing a subroutine
+call or <var class="var">expr</var> does not correspond to a valid position in the
+call stack.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/command"></a><a id="index-command"></a><span><code class="code">command</code><a class="copiable-link" href="#index-command"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">command [-pVv] <var class="var">command</var> [<var class="var">arguments</var> ...]
+</pre></div>
+
+<p>The <code class="code">command</code> builtin runs <var class="var">command</var> with <var class="var">arguments</var>
+ignoring any shell function named <var class="var">command</var>.
+Only shell builtin commands or commands found by searching the
+<code class="env">PATH</code> are executed.
+If there is a shell function named <code class="code">ls</code>, running ‘<samp class="samp">command ls</samp>’
+within the function will execute the external command <code class="code">ls</code>
+instead of calling the function recursively.
+The <samp class="option">-p</samp> option means to use a default value for <code class="env">PATH</code>
+that is guaranteed to find all of the standard utilities.
+The return status in this case is 127 if <var class="var">command</var> cannot be
+found or an error occurred, and the exit status of <var class="var">command</var>
+otherwise.
+</p>
+<p>If either the <samp class="option">-V</samp> or <samp class="option">-v</samp> option is supplied, <code class="code">command</code>
+prints a description of <var class="var">command</var>.
+The <samp class="option">-v</samp> option
+displays a single word indicating the command or file name used to
+invoke <var class="var">command</var>;
+the <samp class="option">-V</samp> option produces a more verbose description.
+In this case, the return status is
+zero if <var class="var">command</var> is found, and non-zero if not.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/declare"></a><a id="index-declare"></a><span><code class="code">declare</code><a class="copiable-link" href="#index-declare"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">declare [-aAfFgiIlnrtux] [-p] [<var class="var">name</var>[=<var class="var">value</var>] ...]
+</pre></div>
+
+<p>Declare variables and give them attributes.
+If no <var class="var">name</var>s are given, then display the values of variables or
+shell functions instead. 
+</p>
+<p>The <samp class="option">-p</samp> option will display the attributes and values of each
+<var class="var">name</var>.
+When <samp class="option">-p</samp> is used with <var class="var">name</var> arguments, additional options,
+other than <samp class="option">-f</samp> and <samp class="option">-F</samp>, are ignored.
+</p>
+<p>When <samp class="option">-p</samp> is supplied without <var class="var">name</var> arguments,
+<code class="code">declare</code> will display the attributes and values
+of all variables having the attributes specified by the additional options.
+If no other options are supplied with <samp class="option">-p</samp>, <code class="code">declare</code> will
+display the attributes and values of all shell variables.
+The <samp class="option">-f</samp> option restricts the display to shell functions.
+</p>
+<p>The <samp class="option">-F</samp> option inhibits the display of function definitions;
+only the function name and attributes are printed.
+If the <code class="code">extdebug</code> shell option is enabled using <code class="code">shopt</code>
+(see <a class="pxref" href="The-Shopt-Builtin.html">The Shopt Builtin</a>), the source file name and line number where
+each <var class="var">name</var> is defined are displayed as well.
+<samp class="option">-F</samp> implies <samp class="option">-f</samp>.
+</p>
+<p>The <samp class="option">-g</samp> option forces variables to be created or modified at
+the global scope, even when <code class="code">declare</code> is executed in a shell function.
+It is ignored in when <code class="code">declare</code> is  not executed in a shell function.
+</p>
+<p>The <samp class="option">-I</samp> option causes local variables to inherit the attributes
+(except the <code class="code">nameref</code> attribute)
+and value of any existing variable with the same
+<var class="var">name</var> at a surrounding scope.
+If there is no existing variable, the local variable is initially unset.
+</p>
+<p>The following options can be used to restrict output to variables with
+the specified attributes or to give variables attributes:
+</p>
+<dl class="table">
+<dt><code class="code">-a</code></dt>
+<dd><p>Each <var class="var">name</var> is an indexed array variable (see <a class="pxref" href="Arrays.html">Arrays</a>).
+</p>
+</dd>
+<dt><code class="code">-A</code></dt>
+<dd><p>Each <var class="var">name</var> is an associative array variable (see <a class="pxref" href="Arrays.html">Arrays</a>).
+</p>
+</dd>
+<dt><code class="code">-f</code></dt>
+<dd><p>Each <var class="var">name</var> refers to a shell function.
+</p>
+</dd>
+<dt><code class="code">-i</code></dt>
+<dd><p>The variable is to be treated as an integer;
+arithmetic evaluation (see <a class="pxref" href="Shell-Arithmetic.html">Shell Arithmetic</a>) is
+performed when the variable is assigned a value.
+</p>
+</dd>
+<dt><code class="code">-l</code></dt>
+<dd><p>When the variable is assigned a value, all upper-case characters are
+converted to lower-case.
+The upper-case attribute is disabled.
+</p>
+</dd>
+<dt><code class="code">-n</code></dt>
+<dd><p>Give each <var class="var">name</var> the <code class="code">nameref</code> attribute, making
+it a name reference to another variable.
+That other variable is defined by the value of <var class="var">name</var>.
+All references, assignments, and attribute modifications
+to <var class="var">name</var>, except for those using or changing the
+<samp class="option">-n</samp> attribute itself, are performed on the variable referenced by
+<var class="var">name</var>’s value.
+The nameref attribute cannot be applied to array variables.
+</p>
+</dd>
+<dt><code class="code">-r</code></dt>
+<dd><p>Make <var class="var">name</var>s readonly.
+These names cannot then be assigned values
+by subsequent assignment statements or unset.
+</p>
+</dd>
+<dt><code class="code">-t</code></dt>
+<dd><p>Give each <var class="var">name</var> the <code class="code">trace</code> attribute.
+Traced functions inherit the <code class="code">DEBUG</code> and <code class="code">RETURN</code> traps from
+the calling shell.
+The trace attribute has no special meaning for variables.
+</p>
+</dd>
+<dt><code class="code">-u</code></dt>
+<dd><p>When the variable is assigned a value, all lower-case characters are
+converted to upper-case.
+The lower-case attribute is disabled.
+</p>
+</dd>
+<dt><code class="code">-x</code></dt>
+<dd><p>Mark each <var class="var">name</var> for export to subsequent commands via
+the environment.
+</p></dd>
+</dl>
+
+<p>Using ‘<samp class="samp">+</samp>’ instead of ‘<samp class="samp">-</samp>’ turns off the specified
+attribute instead, with the exceptions that ‘<samp class="samp">+a</samp>’ and ‘<samp class="samp">+A</samp>’
+may not be used to destroy array variables and ‘<samp class="samp">+r</samp>’ will not
+remove the readonly attribute.
+</p>
+<p>When used in a function, <code class="code">declare</code> makes each <var class="var">name</var> local,
+as with the <code class="code">local</code> command, unless the <samp class="option">-g</samp> option is supplied.
+If a variable name is followed by =<var class="var">value</var>, the value of the variable
+is set to <var class="var">value</var>.
+</p>
+<p>When using <samp class="option">-a</samp> or <samp class="option">-A</samp> and the compound assignment syntax to 
+create array variables, additional attributes do not take effect until
+subsequent assignments.
+</p>
+<p>The return status is zero unless an invalid option is encountered,
+an attempt is made to define a function using ‘<samp class="samp">-f foo=bar</samp>’,
+an attempt is made to assign a value to a readonly variable,
+an attempt is made to assign a value to an array variable without
+using the compound assignment syntax (see <a class="pxref" href="Arrays.html">Arrays</a>),
+one of the <var class="var">name</var>s is not a valid shell variable name,
+an attempt is made to turn off readonly status for a readonly variable,
+an attempt is made to turn off array status for an array variable,
+or an attempt is made to display a non-existent function with <samp class="option">-f</samp>.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/echo"></a><a id="index-echo"></a><span><code class="code">echo</code><a class="copiable-link" href="#index-echo"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">echo [-neE] [<var class="var">arg</var> ...]
+</pre></div>
+
+<p>Output the <var class="var">arg</var>s, separated by spaces, terminated with a
+newline.
+The return status is 0 unless a write error occurs.
+If <samp class="option">-n</samp> is specified, the trailing newline is not printed.
+</p>
+<p>If the <samp class="option">-e</samp> option is given, <code class="code">echo</code> interprets the following
+backslash-escaped characters.
+The <samp class="option">-E</samp> option disables interpretation of these escape characters,
+even on systems where they are interpreted by default.
+The <code class="code">xpg_echo</code> shell option determines
+whether or not <code class="code">echo</code> interprets any options and
+expands these escape characters.
+<code class="code">echo</code> does not interpret <samp class="option">--</samp> to mean the end of options.
+</p>
+<p><code class="code">echo</code> interprets the following escape sequences:
+</p><dl class="table">
+<dt><code class="code">\a</code></dt>
+<dd><p>alert (bell)
+</p></dd>
+<dt><code class="code">\b</code></dt>
+<dd><p>backspace
+</p></dd>
+<dt><code class="code">\c</code></dt>
+<dd><p>suppress further output
+</p></dd>
+<dt><code class="code">\e</code></dt>
+<dt><code class="code">\E</code></dt>
+<dd><p>escape
+</p></dd>
+<dt><code class="code">\f</code></dt>
+<dd><p>form feed
+</p></dd>
+<dt><code class="code">\n</code></dt>
+<dd><p>new line
+</p></dd>
+<dt><code class="code">\r</code></dt>
+<dd><p>carriage return
+</p></dd>
+<dt><code class="code">\t</code></dt>
+<dd><p>horizontal tab
+</p></dd>
+<dt><code class="code">\v</code></dt>
+<dd><p>vertical tab
+</p></dd>
+<dt><code class="code">\\</code></dt>
+<dd><p>backslash
+</p></dd>
+<dt><code class="code">\0<var class="var">nnn</var></code></dt>
+<dd><p>The eight-bit character whose value is the octal value <var class="var">nnn</var>
+(zero to three octal digits).
+</p></dd>
+<dt><code class="code">\x<var class="var">HH</var></code></dt>
+<dd><p>The eight-bit character whose value is the hexadecimal value <var class="var">HH</var>
+(one or two hex digits).
+</p></dd>
+<dt><code class="code">\u<var class="var">HHHH</var></code></dt>
+<dd><p>The Unicode (ISO/IEC 10646) character whose value is the hexadecimal value
+<var class="var">HHHH</var> (one to four hex digits).
+</p></dd>
+<dt><code class="code">\U<var class="var">HHHHHHHH</var></code></dt>
+<dd><p>The Unicode (ISO/IEC 10646) character whose value is the hexadecimal value
+<var class="var">HHHHHHHH</var> (one to eight hex digits).
+</p></dd>
+</dl>
+
+<p><code class="code">echo</code> writes any unrecognized backslash-escaped characters unchanged.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/enable"></a><a id="index-enable"></a><span><code class="code">enable</code><a class="copiable-link" href="#index-enable"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">enable [-a] [-dnps] [-f <var class="var">filename</var>] [<var class="var">name</var> ...]
+</pre></div>
+
+<p>Enable and disable builtin shell commands.
+Disabling a builtin allows an executable file which has the same name
+as a shell builtin to be executed without specifying a full pathname,
+even though the shell normally searches for builtins before files.
+</p>
+<p>If <samp class="option">-n</samp> is supplied, the <var class="var">name</var>s are disabled.
+Otherwise <var class="var">name</var>s are enabled.
+For example, to use the <code class="code">test</code> binary
+found using <code class="env">$PATH</code> instead of the shell builtin version, type
+‘<samp class="samp">enable -n test</samp>’.
+</p>
+<p>If the <samp class="option">-p</samp> option is supplied, or no <var class="var">name</var> arguments are
+supplied, print a list of shell builtins.
+With no other arguments, the list consists of all enabled shell builtins.
+The <samp class="option">-n</samp> option means to print only disabled builtins.
+The <samp class="option">-a</samp> option means to list
+each builtin with an indication of whether or not it is enabled. 
+The <samp class="option">-s</samp> option means to
+restrict <code class="code">enable</code> to the
+<small class="sc">POSIX</small>
+special builtins.
+</p>
+<p>The <samp class="option">-f</samp> option means to load the new builtin command <var class="var">name</var>
+from shared object <var class="var">filename</var>, on systems that support dynamic loading.
+If <var class="var">filename</var> does not contain a slash.
+Bash will use the value of the <code class="env">BASH_LOADABLES_PATH</code> variable as a
+colon-separated list of directories in which to search for <var class="var">filename</var>.
+The default for <code class="env">BASH_LOADABLES_PATH</code> is system-dependent,
+and may include "." to force a search of the current directory.
+The <samp class="option">-d</samp> option will delete a builtin loaded with <samp class="option">-f</samp>.
+If <samp class="option">-s</samp> is used with <samp class="option">-f</samp>, the new builtin becomes a
+<small class="sc">POSIX</small>
+special builtin (see <a class="pxref" href="Special-Builtins.html">Special Builtins</a>).
+</p>
+<p>If no options are supplied and a <var class="var">name</var> is not a shell builtin,
+<code class="code">enable</code> will attempt to load <var class="var">name</var> from a shared object named
+<var class="var">name</var>, as if the command were
+‘<samp class="samp">enable -f <var class="var">name</var> <var class="var">name</var></samp>’.
+</p>
+<p>The return status is zero unless a <var class="var">name</var> is not a shell builtin
+or there is an error loading a new builtin from a shared object.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/help"></a><a id="index-help"></a><span><code class="code">help</code><a class="copiable-link" href="#index-help"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">help [-dms] [<var class="var">pattern</var>]
+</pre></div>
+
+<p>Display helpful information about builtin commands.
+If <var class="var">pattern</var> is specified, <code class="code">help</code> gives detailed help
+on all commands matching <var class="var">pattern</var>
+as described below;
+otherwise it displays a list of
+all builtins and shell compound commands.
+</p>
+<p>Options, if supplied, have the following meanings:
+</p>
+<dl class="table">
+<dt><code class="code">-d</code></dt>
+<dd><p>Display a short description of each <var class="var">pattern</var>
+</p></dd>
+<dt><code class="code">-m</code></dt>
+<dd><p>Display the description of each <var class="var">pattern</var> in a manpage-like format
+</p></dd>
+<dt><code class="code">-s</code></dt>
+<dd><p>Display only a short usage synopsis for each <var class="var">pattern</var>
+</p></dd>
+</dl>
+
+<p>If <var class="var">pattern</var> contains pattern matching characters
+(see <a class="pxref" href="Pattern-Matching.html">Pattern Matching</a>)
+it’s treated as a shell pattern and
+<code class="code">help</code> prints the description of each
+help topic matching <var class="var">pattern</var>.
+</p>
+<p>If not, and <var class="var">pattern</var> exactly matches the name of a help topic,
+<code class="code">help</code> prints the description
+associated with that topic.
+Otherwise, <code class="code">help</code> performs prefix matching and
+prints the descriptions of all matching help topics. 
+</p>
+<p>The return status is zero unless no command matches <var class="var">pattern</var>.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/let"></a><a id="index-let"></a><span><code class="code">let</code><a class="copiable-link" href="#index-let"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">let <var class="var">expression</var> [<var class="var">expression</var> ...]
+</pre></div>
+
+<p>The <code class="code">let</code> builtin allows arithmetic to be performed on shell variables. 
+Each <var class="var">expression</var> is evaluated as an arithmetic expression
+according to the rules given below in <a class="ref" href="Shell-Arithmetic.html">Shell Arithmetic</a>.
+If the last <var class="var">expression</var> evaluates to 0,
+<code class="code">let</code> returns 1;
+otherwise <code class="code">let</code> returns 0.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/local"></a><a id="index-local"></a><span><code class="code">local</code><a class="copiable-link" href="#index-local"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">local [<var class="var">option</var>] <var class="var">name</var>[=<var class="var">value</var>] ...
+</pre></div>
+
+<p>For each argument, create a local variable named <var class="var">name</var>,
+and assign it <var class="var">value</var>.
+The <var class="var">option</var> can be any of the options accepted by <code class="code">declare</code>.
+<code class="code">local</code> can only be used within a function; it makes the variable
+<var class="var">name</var> have a visible scope restricted to that function and its
+children.
+It is an error to use <code class="code">local</code> when not within a function.
+</p>
+<p>If <var class="var">name</var> is ‘<samp class="samp">-</samp>’, it makes the set of shell options
+local to the  function in which <code class="code">local</code> is invoked:
+any shell options changed using the <code class="code">set</code> builtin inside
+the function after the call to <code class="code">local</code> are restored to their
+original values when the function returns.
+The restore is performed as if a series of <code class="code">set</code> commands were
+executed to restore the values that were in place before the function.
+</p>
+<p>With no operands, <code class="code">local</code>
+writes a list of local variables to the standard output.
+</p>
+<p>The return status is zero unless <code class="code">local</code> is used outside
+a function, an invalid <var class="var">name</var> is supplied, or <var class="var">name</var> is a
+readonly variable.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/logout"></a><a id="index-logout"></a><span><code class="code">logout</code><a class="copiable-link" href="#index-logout"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">logout [<var class="var">n</var>]
+</pre></div>
+
+<p>Exit a login shell, returning a status of <var class="var">n</var> to the shell’s
+parent.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/mapfile"></a><a id="index-mapfile"></a><span><code class="code">mapfile</code><a class="copiable-link" href="#index-mapfile"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">mapfile [-d <var class="var">delim</var>] [-n <var class="var">count</var>] [-O <var class="var">origin</var>] [-s <var class="var">count</var>]
+    [-t] [-u <var class="var">fd</var>] [-C <var class="var">callback</var>] [-c <var class="var">quantum</var>] [<var class="var">array</var>]
+</pre></div>
+
+<p>Read lines from the standard input,
+or from file descriptor <var class="var">fd</var> if the <samp class="option">-u</samp> option is supplied,
+into the indexed array variable <var class="var">array</var>.
+The variable <code class="code">MAPFILE</code> is the default <var class="var">array</var>.
+Options, if supplied, have the following meanings:
+</p>
+<dl class="table">
+<dt><code class="code">-d</code></dt>
+<dd><p>Use the first character of <var class="var">delim</var> to terminate each input line,
+rather than newline.
+If <var class="var">delim</var> is the empty string, <code class="code">mapfile</code> will terminate a line
+when it reads a NUL character.
+</p></dd>
+<dt><code class="code">-n</code></dt>
+<dd><p>Copy at most <var class="var">count</var> lines.
+If <var class="var">count</var> is 0, copy all lines.
+</p></dd>
+<dt><code class="code">-O</code></dt>
+<dd><p>Begin assigning to <var class="var">array</var> at index <var class="var">origin</var>.
+The default index is 0.
+</p></dd>
+<dt><code class="code">-s</code></dt>
+<dd><p>Discard the first <var class="var">count</var> lines read.
+</p></dd>
+<dt><code class="code">-t</code></dt>
+<dd><p>Remove a trailing <var class="var">delim</var> (default newline) from each line read.
+</p></dd>
+<dt><code class="code">-u</code></dt>
+<dd><p>Read lines from file descriptor <var class="var">fd</var> instead of the standard input.
+</p></dd>
+<dt><code class="code">-C</code></dt>
+<dd><p>Evaluate <var class="var">callback</var> each time <var class="var">quantum</var> lines are read.
+The <samp class="option">-c</samp> option specifies <var class="var">quantum</var>.
+</p></dd>
+<dt><code class="code">-c</code></dt>
+<dd><p>Specify the number of lines read between each call to <var class="var">callback</var>.
+</p></dd>
+</dl>
+
+<p>If <samp class="option">-C</samp> is specified without <samp class="option">-c</samp>,
+the default quantum is 5000.
+When <var class="var">callback</var>  is evaluated, it is supplied the index of the next
+array element to be assigned and the line to be assigned to that element
+as additional arguments.
+<var class="var">callback</var> is evaluated after the line is read but before the
+array element is assigned.
+</p>
+<p>If not supplied with an explicit origin, <code class="code">mapfile</code> will clear <var class="var">array</var>
+before assigning to it.
+</p>
+<p><code class="code">mapfile</code> returns zero unless an invalid option or option
+argument is supplied, <var class="var">array</var> is invalid or unassignable, or if
+<var class="var">array</var> is not an indexed array.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/printf"></a><a id="index-printf"></a><span><code class="code">printf</code><a class="copiable-link" href="#index-printf"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">printf [-v <var class="var">var</var>] <var class="var">format</var> [<var class="var">arguments</var>]
+</pre></div>
+
+<p>Write the formatted <var class="var">arguments</var> to the standard output under the
+control of the <var class="var">format</var>.
+The <samp class="option">-v</samp> option assigns the output to the variable
+<var class="var">var</var> rather than printing it to the standard output.
+</p>
+<p>The <var class="var">format</var> is a character string which contains three types of objects:
+plain characters, which are simply copied to standard output, character
+escape sequences, which are converted and copied to the standard output, and
+format specifications, each of which causes printing of the next successive
+<var class="var">argument</var>.
+In addition to the standard <code class="code">printf(3)</code> format characters
+<code class="code">cCsSndiouxXeEfFgGaA</code>,
+<code class="code">printf</code> interprets the following additional format specifiers:
+</p>
+<dl class="table">
+<dt><code class="code">%b</code></dt>
+<dd><p>Causes <code class="code">printf</code> to expand backslash escape sequences in the
+corresponding <var class="var">argument</var> in the same way as <code class="code">echo -e</code>
+(see <a class="pxref" href="#Bash-Builtins">Bash Builtin Commands</a>).
+</p></dd>
+<dt><code class="code">%q</code></dt>
+<dd><p>Causes <code class="code">printf</code> to output the
+corresponding <var class="var">argument</var> in a format that can be reused as shell input.
+<code class="code">%q</code> and <code class="code">%Q</code>P use the ANSI-C quoting style (see <a class="pxref" href="ANSI_002dC-Quoting.html">ANSI-C Quoting</a>)
+if any characters
+in the argument string require it, and backslash quoting otherwise.
+If the format string uses the <code class="code">printf</code> <em class="emph">alternate form</em>, these two
+formats quote the argument string using single quotes.
+</p>
+</dd>
+<dt><code class="code">%Q</code></dt>
+<dd><p>like <code class="code">%q</code>, but applies any supplied precision to the <var class="var">argument</var>
+before quoting it.
+</p>
+</dd>
+<dt><code class="code">%(<var class="var">datefmt</var>)T</code></dt>
+<dd><p>Causes <code class="code">printf</code> to output the date-time string resulting from using
+<var class="var">datefmt</var> as a format string for <code class="code">strftime</code>(3).
+The corresponding <var class="var">argument</var> is an integer representing the number of
+seconds since the epoch.
+This format specifier recognizes Two special argument values:
+-1 represents the current time,
+and -2 represents the time the shell was invoked.
+If no argument is specified, conversion behaves as if -1 had been supplied.
+This is an exception to the usual <code class="code">printf</code> behavior.
+</p></dd>
+</dl>
+
+<p>The %b, %q, and %T format specifiers all use the field width and precision
+arguments from the format specification and write that many bytes from    
+(or use that wide a field for) the expanded argument, which usually
+contains more characters than the original.
+</p>
+<p>The %n format specifier accepts a corresponding argument that is treated
+as a shell variable name.
+</p>
+<p>The %s and %c format specifiers accept an l (long) modifier, which forces
+them to convert the argument string to a wide-character string and apply
+any supplied field width and precision in terms of characters, not bytes.
+The %S and %C format specifiers are equivalent to %ls and %lc, respectively.
+</p>
+
+<p>Arguments to non-string format specifiers are treated as C language constants,
+except that a leading plus or minus sign is allowed, and if the leading
+character is a single or double quote, the value is the numeric value of
+the following character, using the current locale.
+</p>
+<p>The <var class="var">format</var> is reused as necessary to consume all of the <var class="var">arguments</var>.
+If the <var class="var">format</var> requires more <var class="var">arguments</var> than are supplied, the
+extra format specifications behave as if a zero value or null string, as
+appropriate, had been supplied.
+The return value is zero on success,
+non-zero if an invalid option is supplied or a write or assignment error
+occurs.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/read"></a><a id="index-read"></a><span><code class="code">read</code><a class="copiable-link" href="#index-read"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">read [-Eers] [-a <var class="var">aname</var>] [-d <var class="var">delim</var>] [-i <var class="var">text</var>] [-n <var class="var">nchars</var>]
+    [-N <var class="var">nchars</var>] [-p <var class="var">prompt</var>] [-t <var class="var">timeout</var>] [-u <var class="var">fd</var>] [<var class="var">name</var> ...]
+</pre></div>
+
+<p>Read one line from the standard input, or from the file descriptor
+<var class="var">fd</var> supplied as an argument to the <samp class="option">-u</samp> option,
+split it into words as described above in <a class="ref" href="Word-Splitting.html">Word Splitting</a>,
+and assign the first word to the first <var class="var">name</var>,
+the second word to the second <var class="var">name</var>, and so on.
+If there are more words than names,
+the remaining words and their intervening delimiters are assigned
+to the last <var class="var">name</var>.
+If there are fewer words read from the input stream than names,
+the remaining names are assigned empty values.
+The characters in the value of the <code class="env">IFS</code> variable
+are used to split the line into words using the same rules the shell
+uses for expansion (described above in <a class="ref" href="Word-Splitting.html">Word Splitting</a>).
+The backslash character ‘<samp class="samp">\</samp>’ removes any special
+meaning for the next character read and is used for line continuation.
+</p>
+<p>Options, if supplied, have the following meanings:
+</p>
+<dl class="table">
+<dt><code class="code">-a <var class="var">aname</var></code></dt>
+<dd><p>The words are assigned to sequential indices of the array variable
+<var class="var">aname</var>,
+starting at 0.
+All elements are removed from <var class="var">aname</var> before the assignment.
+Other <var class="var">name</var> arguments are ignored.
+</p>
+</dd>
+<dt><code class="code">-d <var class="var">delim</var></code></dt>
+<dd><p>The first character of <var class="var">delim</var> terminates the input line,
+rather than newline.
+If <var class="var">delim</var> is the empty string, <code class="code">read</code> will terminate a line
+when it reads a NUL character.
+</p>
+</dd>
+<dt><code class="code">-e</code></dt>
+<dd><p>If the standard input is coming from a terminal,
+<code class="code">read</code> uses
+Readline (see <a class="pxref" href="Command-Line-Editing.html">Command Line Editing</a>)
+to obtain the line.
+Readline uses the current (or default, if line editing was not previously
+active) editing settings, but uses Readline’s default filename completion.
+</p>
+</dd>
+<dt><code class="code">-E</code></dt>
+<dd><p>If the standard input is coming from a terminal,
+<code class="code">read</code> uses
+Readline (see <a class="pxref" href="Command-Line-Editing.html">Command Line Editing</a>) to obtain the line.
+Readline uses the current (or default, if line editing was not previously
+active) editing settings, but uses Bash’s default completion, including
+programmable completion.
+</p>
+</dd>
+<dt><code class="code">-i <var class="var">text</var></code></dt>
+<dd><p>If Readline is being used to read the line, <code class="code">read</code> places <var class="var">text</var> into
+the editing buffer before editing begins.
+</p>
+</dd>
+<dt><code class="code">-n <var class="var">nchars</var></code></dt>
+<dd><p><code class="code">read</code> returns after reading <var class="var">nchars</var> characters rather than
+waiting for a complete line of input,
+unless it encounters EOF or <code class="code">read</code> times out,
+but honors a delimiter if it reads fewer
+than <var class="var">nchars</var> characters before the delimiter.
+</p>
+</dd>
+<dt><code class="code">-N <var class="var">nchars</var></code></dt>
+<dd><p><code class="code">read</code> returns after reading exactly <var class="var">nchars</var> characters rather
+than waiting for a complete line of input,
+unless it encounters EOF or <code class="code">read</code> times out.
+Delimiter characters in the input are
+not treated specially and do not cause <code class="code">read</code> to return until
+it has read <var class="var">nchars</var> characters.
+The result is not split on the characters in <code class="code">IFS</code>; the intent is
+that the variable is assigned exactly the characters read
+(with the exception of backslash; see the <samp class="option">-r</samp> option below).
+</p>
+</dd>
+<dt><code class="code">-p <var class="var">prompt</var></code></dt>
+<dd><p>Display <var class="var">prompt</var>, without a trailing newline, before attempting
+to read any input, but only if input is coming from a terminal.
+</p>
+</dd>
+<dt><code class="code">-r</code></dt>
+<dd><p>If this option is given, backslash does not act as an escape character.
+The backslash is considered to be part of the line.
+In particular, a backslash-newline pair may not then be used as a line
+continuation.
+</p>
+</dd>
+<dt><code class="code">-s</code></dt>
+<dd><p>Silent mode.
+If input is coming from a terminal, characters are not echoed.
+</p>
+</dd>
+<dt><code class="code">-t <var class="var">timeout</var></code></dt>
+<dd><p>Cause <code class="code">read</code> to time out and return failure if it does not read
+a complete line of input (or a specified number of characters)
+within <var class="var">timeout</var> seconds.
+<var class="var">timeout</var>  may be a decimal number with a fractional portion following
+the decimal point.
+This option is only effective if <code class="code">read</code> is reading input from a
+terminal, pipe, or other special file; it has no effect when reading
+from regular files.
+If <code class="code">read</code> times out, it saves any partial input read into
+the specified variable <var class="var">name</var>, and returns a status greater than 128.
+If <var class="var">timeout</var> is 0, <code class="code">read</code> returns immediately, without trying to
+read any data.
+In this case, the exit status is 0 if input is available on the specified
+file descriptor, or the read will return EOF, non-zero otherwise.
+</p>
+</dd>
+<dt><code class="code">-u <var class="var">fd</var></code></dt>
+<dd><p>Read input from file descriptor <var class="var">fd</var> instead of the standard input.
+</p></dd>
+</dl>
+
+<p>Other than the case where <var class="var">delim</var> is the empty string, <code class="code">read</code>
+ignores any NUL characters in the input.
+</p>
+<p>If no <var class="var">name</var>s are supplied, <code class="code">read</code> assigns the line read,
+without the ending delimiter but otherwise unmodified,
+to the variable <code class="env">REPLY</code>.
+</p>
+<p>The exit status is zero, unless end-of-file is encountered, <code class="code">read</code>
+times out (in which case the status is greater than 128),
+a variable assignment error (such as assigning to a readonly variable) occurs,
+or an invalid file descriptor is supplied as the argument to <samp class="option">-u</samp>.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/readarray"></a><a id="index-readarray"></a><span><code class="code">readarray</code><a class="copiable-link" href="#index-readarray"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">readarray [-d <var class="var">delim</var>] [-n <var class="var">count</var>] [-O <var class="var">origin</var>] [-s <var class="var">count</var>]
+    [-t] [-u <var class="var">fd</var>] [-C <var class="var">callback</var>] [-c <var class="var">quantum</var>] [<var class="var">array</var>]
+</pre></div>
+
+<p>Read lines from the standard input into the indexed array variable <var class="var">array</var>,
+or from file descriptor <var class="var">fd</var>
+if the <samp class="option">-u</samp> option is supplied.
+</p>
+<p>A synonym for <code class="code">mapfile</code>.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/source"></a><a id="index-source"></a><span><code class="code">source</code><a class="copiable-link" href="#index-source"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">source [-p <var class="var">path</var>] <var class="var">filename</var> [<var class="var">arguments</var>]
+</pre></div>
+
+<p>A synonym for <code class="code">.</code> (see <a class="pxref" href="Bourne-Shell-Builtins.html">Bourne Shell Builtins</a>).
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/type"></a><a id="index-type"></a><span><code class="code">type</code><a class="copiable-link" href="#index-type"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">type [-afptP] [<var class="var">name</var> ...]
+</pre></div>
+
+<p>Indicate how each <var class="var">name</var> would be interpreted if used as a command
+name.
+</p>
+<p>If the <samp class="option">-t</samp> option is used, <code class="code">type</code> prints a single word
+which is one of ‘<samp class="samp">alias</samp>’, ‘<samp class="samp">keyword</samp>’, ‘<samp class="samp">function</samp>’,
+‘<samp class="samp">builtin</samp>’, or ‘<samp class="samp">file</samp>’,
+if <var class="var">name</var> is an alias, shell reserved word, shell function,
+shell builtin, or executable file, respectively.
+If the <var class="var">name</var> is not found, <code class="code">type</code> prints nothing and
+returns a failure status.
+</p>
+<p>If the <samp class="option">-p</samp> option is used, <code class="code">type</code> either returns the name
+of the executable file that would be found by searching <code class="code">$PATH</code>
+for <code class="code">name</code>,
+or nothing if <samp class="option">-t</samp> would not return ‘<samp class="samp">file</samp>’.
+</p>
+<p>The <samp class="option">-P</samp> option forces a path search for each <var class="var">name</var>, even if
+<samp class="option">-t</samp> would not return ‘<samp class="samp">file</samp>’.
+</p>
+<p>If a <var class="var">name</var> is present in the table of hashed commands,
+options <samp class="option">-p</samp> and <samp class="option">-P</samp> print the hashed value, which is not
+necessarily the file that appears first in <code class="code">$PATH</code>.
+</p>
+<p>If the <samp class="option">-a</samp> option is used, <code class="code">type</code> returns all of the places
+that contain a command named <var class="var">name</var>.
+This includes aliases, reserved words, functions, and builtins,
+but the path search options (<samp class="option">-p</samp> and <samp class="option">-P</samp>) can be supplied
+to restrict the output to executable files.
+If <samp class="option">-a</samp> is supplied with <samp class="option">-p</samp>, <code class="code">type</code> does not look
+in the table of hashed commands, and only performs a <code class="code">PATH</code>
+search for <var class="var">name</var>.
+</p>
+<p>If the <samp class="option">-f</samp> option is used, <code class="code">type</code> does not attempt to find
+shell functions, as with the <code class="code">command</code> builtin.
+</p>
+<p>The return status is zero if all of the <var class="var">name</var>s are found, non-zero
+if any are not found.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/typeset"></a><a id="index-typeset"></a><span><code class="code">typeset</code><a class="copiable-link" href="#index-typeset"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">typeset [-afFgrxilnrtux] [-p] [<var class="var">name</var>[=<var class="var">value</var>] ...]
+</pre></div>
+
+<p>The <code class="code">typeset</code> command is supplied for compatibility with the Korn
+shell.
+It is a synonym for the <code class="code">declare</code> builtin command.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/ulimit"></a><a id="index-ulimit"></a><span><code class="code">ulimit</code><a class="copiable-link" href="#index-ulimit"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">ulimit [-HS] -a
+ulimit [-HS] [-bcdefiklmnpqrstuvxPRT] [<var class="var">limit</var>]
+</pre></div>
+
+<p><code class="code">ulimit</code> provides control over the resources available to the
+shell and to processes it starts, on systems that allow such control.
+If an option is given, it is interpreted as follows:
+</p>
+<dl class="table">
+<dt><code class="code">-S</code></dt>
+<dd><p>Change and report the soft limit associated with a resource.
+</p>
+</dd>
+<dt><code class="code">-H</code></dt>
+<dd><p>Change and report the hard limit associated with a resource.
+</p>
+</dd>
+<dt><code class="code">-a</code></dt>
+<dd><p>Report all current limits; no limits are set.
+</p>
+</dd>
+<dt><code class="code">-b</code></dt>
+<dd><p>The maximum socket buffer size.
+</p>
+</dd>
+<dt><code class="code">-c</code></dt>
+<dd><p>The maximum size of core files created.
+</p>
+</dd>
+<dt><code class="code">-d</code></dt>
+<dd><p>The maximum size of a process’s data segment.
+</p>
+</dd>
+<dt><code class="code">-e</code></dt>
+<dd><p>The maximum scheduling priority ("nice").
+</p>
+</dd>
+<dt><code class="code">-f</code></dt>
+<dd><p>The maximum size of files written by the shell and its children.
+</p>
+</dd>
+<dt><code class="code">-i</code></dt>
+<dd><p>The maximum number of pending signals.
+</p>
+</dd>
+<dt><code class="code">-k</code></dt>
+<dd><p>The maximum number of kqueues that may be allocated.
+</p>
+</dd>
+<dt><code class="code">-l</code></dt>
+<dd><p>The maximum size that may be locked into memory.
+</p>
+</dd>
+<dt><code class="code">-m</code></dt>
+<dd><p>The maximum resident set size (many systems do not honor this limit).
+</p>
+</dd>
+<dt><code class="code">-n</code></dt>
+<dd><p>The maximum number of open file descriptors (most systems do not
+allow this value to be set).
+</p>
+</dd>
+<dt><code class="code">-p</code></dt>
+<dd><p>The pipe buffer size.
+</p>
+</dd>
+<dt><code class="code">-q</code></dt>
+<dd><p>The maximum number of bytes in
+<small class="sc">POSIX</small>
+message queues.
+</p>
+</dd>
+<dt><code class="code">-r</code></dt>
+<dd><p>The maximum real-time scheduling priority.
+</p>
+</dd>
+<dt><code class="code">-s</code></dt>
+<dd><p>The maximum stack size.
+</p>
+</dd>
+<dt><code class="code">-t</code></dt>
+<dd><p>The maximum amount of cpu time in seconds.
+</p>
+</dd>
+<dt><code class="code">-u</code></dt>
+<dd><p>The maximum number of processes available to a single user.
+</p>
+</dd>
+<dt><code class="code">-v</code></dt>
+<dd><p>The maximum amount of virtual memory available to the shell, and, on
+some systems, to its children.
+</p>
+</dd>
+<dt><code class="code">-x</code></dt>
+<dd><p>The maximum number of file locks.
+</p>
+</dd>
+<dt><code class="code">-P</code></dt>
+<dd><p>The maximum number of pseudoterminals.
+</p>
+</dd>
+<dt><code class="code">-R</code></dt>
+<dd><p>The maximum time a real-time process can run before blocking, in microseconds.
+</p>
+</dd>
+<dt><code class="code">-T</code></dt>
+<dd><p>The maximum number of threads.
+</p></dd>
+</dl>
+
+<p>If <var class="var">limit</var> is supplied, and the <samp class="option">-a</samp> option is not used,
+<var class="var">limit</var> is the new value of the specified resource.
+The special <var class="var">limit</var> values <code class="code">hard</code>, <code class="code">soft</code>, and
+<code class="code">unlimited</code> stand for the current hard limit, the current soft limit,
+and no limit, respectively.
+A hard limit cannot be increased by a non-root user once it is set;
+a soft limit may be increased up to the value of the hard limit.
+Otherwise, <code class="code">ulimit</code> prints the current value of the soft limit
+for the specified resource, unless the <samp class="option">-H</samp> option is supplied.
+When more than one
+resource is specified, the limit name and unit, if appropriate,
+are printed before the value.
+When setting new limits, if neither <samp class="option">-H</samp> nor <samp class="option">-S</samp> is supplied,
+<code class="code">ulimit</code> sets both the hard and soft limits.
+If no option is supplied, then <samp class="option">-f</samp> is assumed.
+</p>
+<p>Values are in 1024-byte increments, except for
+<samp class="option">-t</samp>, which is in seconds;
+<samp class="option">-R</samp>, which is in microseconds;
+<samp class="option">-p</samp>, which is in units of 512-byte blocks;
+<samp class="option">-P</samp>,
+<samp class="option">-T</samp>,
+<samp class="option">-b</samp>,
+<samp class="option">-k</samp>,
+<samp class="option">-n</samp> and <samp class="option">-u</samp>, which are unscaled values;
+and, when in <small class="sc">POSIX</small> mode (see <a class="pxref" href="Bash-POSIX-Mode.html">Bash and POSIX</a>),
+<samp class="option">-c</samp> and <samp class="option">-f</samp>, which are in 512-byte increments.
+</p>
+<p>The return status is zero unless an invalid option or argument is supplied,
+or an error occurs while setting a new limit.
+</p>
+</dd>
+<dt><a class="dashAnchor" name="//apple_ref/Builtin/unalias"></a><a id="index-unalias"></a><span><code class="code">unalias</code><a class="copiable-link" href="#index-unalias"> ¶</a></span></dt>
+<dd><div class="example">
+<pre class="example-preformatted">unalias [-a] [<var class="var">name</var> ... ]
+</pre></div>
+
+<p>Remove each <var class="var">name</var> from the list of aliases.
+If <samp class="option">-a</samp> is supplied, remove all aliases.
+The return value is true unless a supplied <var class="var">name</var> is not a defined alias.
+Aliases are described in <a class="ref" href="Aliases.html">Aliases</a>.
+</p></dd>
+</dl>
+
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Modifying-Shell-Behavior.html">Modifying Shell Behavior</a>, Previous: <a href="Bourne-Shell-Builtins.html">Bourne Shell Builtins</a>, Up: <a href="Shell-Builtin-Commands.html">Shell Builtin Commands</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+
+
+</body></html>

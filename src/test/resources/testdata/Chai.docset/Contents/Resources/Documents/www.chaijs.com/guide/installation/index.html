@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<!-- Mirrored from www.chaijs.com/guide/installation/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Installation</title>
+    <meta name="description" content="Installation">
+
+    <link rel='icon' type='image/x-icon' href="../../img/favicon.ico">
+    <link rel="canonical" href="index.html">
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../js/jquery-mousewheel.js"></script>
+    <script src="../../js/antiscroll.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../chai.js"></script>
+
+    <link rel='stylesheet', href="../../css/antiscroll.css" type="text/css" media="all">
+    <link rel='stylesheet', href="../../css/main.css" type="text/css" media="all">
+    <script type='text/javascript'>
+        var mpq = [];
+        mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
+        (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+        b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+        ""exit/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+        [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+        "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+        d.length;c++){mpq[d[c]]=e(d[c])}})();
+    </script>
+    <script type='text/javascript'>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26183904-6']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+
+
+  <body class="guide">
+
+    <nav id="primary">
+    <div class="nav-wrap">
+        <div class="logo">
+            <h1><a href="https://www.chaijs.com/">Chai Assertion Library</a></h1>
+        </div>
+        <div class="navlist">
+            <ul>
+                <li><a href="../index.html">Guide</a></li>
+                <li><a href="../../api/index.html">API</a></li>
+                <li><a href="https://www.chaijs.com/plugins">Plugins</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+
+    <div class="content">
+      <section id="content">
+        <nav id="guide" class="sidebar sticky">
+
+    
+    
+      
+      
+      
+      
+      <div id="getting-started-guide" class="item primary">
+          
+            <span class="star"></span>
+          
+          <a href="../index.html" class="title">Getting Started Guide</a>
+      </div>
+      
+      
+        <div class="line"></div>
+      
+    
+      
+      
+      
+      
+      <div id="installation" class="item primary active expanded">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="index.html" class="title">Installation</a>
+      </div>
+      
+      <div id="installation" class="subitems">
+          
+          
+          <a href="index.html#nodejs" class="item secondary group-installation expanded">Node.js</a>
+          
+          
+          <a href="index.html#browser" class="item secondary group-installation expanded">Browser</a>
+          
+          
+          <a href="index.html#other-platforms" class="item secondary group-installation expanded">Other Platforms</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="assertion-styles" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../styles/index.html" class="title">Assertion Styles</a>
+      </div>
+      
+      <div id="assertion-styles" class="subitems">
+          
+          
+          <a href="../styles/index.html#assert" class="item secondary group-assertion-styles">Assert</a>
+          
+          
+          <a href="../styles/index.html#expect" class="item secondary group-assertion-styles">Expect</a>
+          
+          
+          <a href="../styles/index.html#should" class="item secondary group-assertion-styles">Should</a>
+          
+          
+          <a href="../styles/index.html#differences" class="item secondary group-assertion-styles">Differences</a>
+          
+          
+          <a href="../styles/index.html#should-extras" class="item secondary group-assertion-styles">Should Extras</a>
+          
+          
+          <a href="../styles/index.html#configuration" class="item secondary group-assertion-styles">Configuration</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="using-chai-with-esm-and-plugins" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html" class="title">Using Chai with ESM and Plugins</a>
+      </div>
+      
+      <div id="using-chai-with-esm-and-plugins" class="subitems">
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#importing-chai" class="item secondary group-using-chai-with-esm-and-plugins">Importing Chai</a>
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#using-plugins" class="item secondary group-using-chai-with-esm-and-plugins">Using Plugins</a>
+          
+          
+          <a href="../using-chai-with-esm-and-plugins/index.html#exposing-globals-in-plugins" class="item secondary group-using-chai-with-esm-and-plugins">Exposing Globals in Plugins</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="core-plugin-concepts" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../plugins/index.html" class="title">Core Plugin Concepts</a>
+      </div>
+      
+      <div id="core-plugin-concepts" class="subitems">
+          
+          
+          <a href="../plugins/index.html#accessing-utilities" class="item secondary group-core-plugin-concepts">Accessing Utilities</a>
+          
+          
+          <a href="../plugins/index.html#using-flags" class="item secondary group-core-plugin-concepts">Using Flags</a>
+          
+          
+          <a href="../plugins/index.html#composing-an-assertion" class="item secondary group-core-plugin-concepts">Composing an Assertion</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="building-a-helper" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../helpers/index.html" class="title">Building a Helper</a>
+      </div>
+      
+      <div id="building-a-helper" class="subitems">
+          
+          
+          <a href="../helpers/index.html#adding-language-chains" class="item secondary group-building-a-helper">Adding Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#adding-properties" class="item secondary group-building-a-helper">Adding Properties</a>
+          
+          
+          <a href="../helpers/index.html#adding-methods" class="item secondary group-building-a-helper">Adding Methods</a>
+          
+          
+          <a href="../helpers/index.html#methods-as-properties" class="item secondary group-building-a-helper">Methods as Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-language-chains" class="item secondary group-building-a-helper">Overwriting Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-properties" class="item secondary group-building-a-helper">Overwriting Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-methods" class="item secondary group-building-a-helper">Overwriting Methods</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="resources" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../resources/index.html" class="title">Resources</a>
+      </div>
+      
+      <div id="resources" class="subitems">
+          
+          
+          <a href="../resources/index.html#getting-help" class="item secondary group-resources">Getting Help</a>
+          
+          
+          <a href="../resources/index.html#contributing" class="item secondary group-resources">Contributing</a>
+          
+      </div>
+      
+      
+    
+</nav>
+<div class="documentation">
+    <div class="wrap">
+        <div class="rendered">
+            <h1 id="installation">Installation</h1>
+
+<p>Chai is available for both node.js and the browser using any
+test framework you like. There are also a number of other tools
+that include Chai.</p>
+
+<h3 id="nodejs">Node.js</h3>
+
+<p>Package is available through <a href="http://npmjs.org/">npm</a>:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">--save-dev</span> chai
+</code></pre></div></div>
+
+<h3 id="browser">Browser</h3>
+
+<p>Include the chai browser build in your testing suite. You can either link to your own self-hosted version of chai or through a NPM CDN like <a href="https://www.jsdelivr.com/">jsDelivr</a> or <a href="https://www.unpkg.com/">unpkg</a>.</p>
+
+<div class="language-html highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;script </span><span class="na">type=</span><span class="s">"module"</span><span class="nt">&gt;</span>
+  <span class="k">import</span> <span class="p">{</span> <span class="nx">expect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">https://cdn.jsdelivr.net/npm/chai@5.1.1/+esm</span><span class="dl">'</span><span class="p">;</span>
+
+  <span class="nx">expect</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="mi">1</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">equal</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="nt">&lt;/script&gt;</span>
+</code></pre></div></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../js/guide.js"></script>
+
+      </section>
+    </div>
+
+    <footer>
+    <section id="footer">
+        <div class="branding">
+            <h3 class="fancy">
+                <a href="https://www.chaijs.com/">Chai Assertion Library</a>
+            </h3>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="index.html">Installation</a></li>
+                <li><a href="../styles/index.html">Interface Styles</a></li>
+                <li><a href="../plugins/index.html">Developing Plugins</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../../api/bdd/index.html">Expect / Should API</a></li>
+                <li><a href="../../api/assert/index.html">Assert API</a></li>
+                <li><a href="../../api/plugins/index.html">Plugin Utility API</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../resources/index.html">Getting Help</a></li>
+                <li><a href="../../api/test/index.html">Test Suite</a></li>
+                <li><a href="https://www.chaijs.com/releases" target="_blank">Releases</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="https://github.com/chaijs/chai/issues" target="_blank">Issues</a></li>
+                <li><a href="https://groups.google.com/group/chaijs" target="_blank">Google Group</a></li>
+                <li><a href="https://github.com/chaijs/chai/actions" target="_blank">Build Status</a></li>
+            </ul>
+        </div>
+    </section>
+</footer>
+
+
+  </body>
+
+
+<!-- Mirrored from www.chaijs.com/guide/installation/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:13 GMT -->
+</html>

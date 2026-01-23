@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<!-- Mirrored from www.chaijs.com/api/test/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:13 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Online Test Suite</title>
+    <meta name="description" content="Chai is a BDD / TDD assertion library for [node](http://nodejs.org) and the browser that can be delightfully paired with any javascript testing framework.
+">
+
+    <link rel='icon' type='image/x-icon' href="../../img/favicon.ico">
+    <link rel="canonical" href="index.html">
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../js/jquery-mousewheel.js"></script>
+    <script src="../../js/antiscroll.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../chai.js"></script>
+
+    <link rel='stylesheet', href="../../css/antiscroll.css" type="text/css" media="all">
+    <link rel='stylesheet', href="../../css/main.css" type="text/css" media="all">
+    <script type='text/javascript'>
+        var mpq = [];
+        mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
+        (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+        b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+        ""exit/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+        [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+        "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+        d.length;c++){mpq[d[c]]=e(d[c])}})();
+    </script>
+    <script type='text/javascript'>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26183904-6']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+
+
+  <body class="api">
+
+    <nav id="primary">
+    <div class="nav-wrap">
+        <div class="logo">
+            <h1><a href="https://www.chaijs.com/">Chai Assertion Library</a></h1>
+        </div>
+        <div class="navlist">
+            <ul>
+                <li><a href="../../guide/index.html">Guide</a></li>
+                <li><a href="../index.html">API</a></li>
+                <li><a href="https://www.chaijs.com/plugins">Plugins</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+
+    <div class="content">
+      <section id="content">
+        <nav id="api" class="sidebar sticky">
+    <a href="../index.html" class="item">
+        Introduction
+    </a>
+    <a href="../bdd/index.html" class="item">
+        Expect / Should
+    </a>
+    <a href="../assert/index.html" class="item">
+        Assert
+    </a>
+    <a href="../plugins/index.html" class="item">
+        Plugin Utilities
+    </a>
+    <a href="index.html" class="item active">
+        Online Test Suite
+    </a>
+    
+</nav>
+
+<div class="documentation">
+    <div class="wrap">
+        <div class="rendered">
+            <article>
+                <h1 id="online-test-suite">Online Test Suite</h1>
+
+<p>This is the test suite that we use to test Chai during development. Use it to confirm
+that Chai will function correctly in your browser environment (<code class="language-js highlighter-rouge"><span class="nx">should</span></code> does
+not work in IE9). These tests are powered by the awesome <a href="https://mochajs.org/">Mocha</a>
+test framework.</p>
+
+            </article>
+        </div>
+        <div id="mocha"></div>
+    </div>
+</div>
+<script src="../../js/mocha.js"></script>
+<script>
+  mocha.setup('bdd');
+
+  err = function (fn, msg) {
+    try {
+      fn();
+      throw new chai.AssertionError({ message: 'Expected an error' });
+    } catch (err) {
+      if ('string' === typeof msg) {
+        chai.expect(err.message).to.equal(msg);
+      } else {
+        chai.expect(err.message).to.match(msg);
+      }
+    }
+  };
+</script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/assert.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/configuration.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/expect.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/globalShould.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/plugins.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/should.js"></script>
+<script src="../../../cdn.rawgit.com/chaijs/chai/v5.2.0/test/utilities.js"></script>
+<script>
+  mocha.run();
+</script>
+
+      </section>
+    </div>
+
+    <footer>
+    <section id="footer">
+        <div class="branding">
+            <h3 class="fancy">
+                <a href="https://www.chaijs.com/">Chai Assertion Library</a>
+            </h3>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../../guide/installation/index.html">Installation</a></li>
+                <li><a href="../../guide/styles/index.html">Interface Styles</a></li>
+                <li><a href="../../guide/plugins/index.html">Developing Plugins</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../bdd/index.html">Expect / Should API</a></li>
+                <li><a href="../assert/index.html">Assert API</a></li>
+                <li><a href="../plugins/index.html">Plugin Utility API</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../../guide/resources/index.html">Getting Help</a></li>
+                <li><a href="index.html">Test Suite</a></li>
+                <li><a href="https://www.chaijs.com/releases" target="_blank">Releases</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="https://github.com/chaijs/chai/issues" target="_blank">Issues</a></li>
+                <li><a href="https://groups.google.com/group/chaijs" target="_blank">Google Group</a></li>
+                <li><a href="https://github.com/chaijs/chai/actions" target="_blank">Build Status</a></li>
+            </ul>
+        </div>
+    </section>
+</footer>
+
+
+  </body>
+
+
+<!-- Mirrored from www.chaijs.com/api/test/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:13 GMT -->
+</html>

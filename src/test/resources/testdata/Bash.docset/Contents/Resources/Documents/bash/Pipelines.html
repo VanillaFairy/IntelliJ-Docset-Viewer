@@ -1,0 +1,142 @@
+<html><!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ --><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This text is a brief description of the features that are present in
+the Bash shell (version 5.3, 18 May 2025).
+
+This is Edition 5.3, last updated 18 May 2025,
+of The GNU Bash Reference Manual,
+for Bash, Version 5.3.
+
+Copyright © 1988-2025 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<title>Pipelines</title>
+
+<meta name="description" content="Pipelines (Bash Reference Manual)">
+<meta name="keywords" content="Pipelines (Bash Reference Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Indexes.html" rel="index" title="Indexes">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Shell-Commands.html" rel="up" title="Shell Commands">
+<link href="Lists.html" rel="next" title="Lists">
+<link href="Simple-Commands.html" rel="prev" title="Simple Commands">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+div.example {margin-left: 3.2em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="">
+
+
+</head>
+
+<body lang="en">
+<div class="subsection-level-extent" id="Pipelines">
+<div class="nav-panel">
+<p>
+Next: <a href="Lists.html" accesskey="n" rel="next">Lists of Commands</a>, Previous: <a href="Simple-Commands.html" accesskey="p" rel="prev">Simple Commands</a>, Up: <a href="Shell-Commands.html" accesskey="u" rel="up">Shell Commands</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h4 class="subsection" id="Pipelines-1"><span>3.2.3 Pipelines<a class="copiable-link" href="#Pipelines-1"> ¶</a></span></h4>
+<a class="index-entry-id" id="index-pipeline"></a>
+<a class="index-entry-id" id="index-commands_002c-pipelines"></a>
+
+<p>A <code class="code">pipeline</code> is a sequence of one or more commands separated by
+one of the control operators ‘<samp class="samp">|</samp>’ or ‘<samp class="samp">|&amp;</samp>’.
+</p>
+<a class="dashAnchor" name="//apple_ref/Word/time"></a><a class="index-entry-id" id="index-time"></a>
+<a class="dashAnchor" name="//apple_ref/Word/%21"></a><a class="index-entry-id" id="index-_0021"></a>
+<a class="index-entry-id" id="index-command-timing"></a>
+<p>The format for a pipeline is
+</p><div class="example">
+<pre class="example-preformatted">[time [-p]] [!] <var class="var">command1</var> [ | or |&amp; <var class="var">command2</var> ] ...
+</pre></div>
+
+<p>The output of each command in the pipeline is connected via a pipe
+to the input of the next command.
+That is, each command reads the previous command’s output.
+This connection is performed before any redirections specified by
+<var class="var">command1</var>.
+</p>
+<p>If ‘<samp class="samp">|&amp;</samp>’ is the pipeline operator,
+<var class="var">command1</var>’s standard error, in addition to
+its standard output, is connected to
+<var class="var">command2</var>’s standard input through the pipe;
+it is shorthand for <code class="code">2&gt;&amp;1 |</code>.
+This implicit redirection of the standard error to the standard output is
+performed after any redirections specified by <var class="var">command1</var>,
+consistent with that shorthand.
+</p>
+<p>If the reserved word <code class="code">time</code> precedes the pipeline,
+Bash prints timing statistics for the pipeline once it finishes.
+The statistics currently consist of elapsed (wall-clock) time and
+user and system time consumed by the command’s execution.
+The <samp class="option">-p</samp> option changes the output format to that specified
+by <small class="sc">POSIX</small>.
+When the shell is in <small class="sc">POSIX</small> mode (see <a class="pxref" href="Bash-POSIX-Mode.html">Bash and POSIX</a>),
+it does not recognize <code class="code">time</code> as a reserved word if the next
+token begins with a ‘<samp class="samp">-</samp>’.
+The value of the <code class="env">TIMEFORMAT</code> variable is a format string that
+specifies how the timing information should be displayed.
+See <a class="xref" href="Bash-Variables.html">Bash Variables</a>, for a description of the available formats.
+Providing <code class="code">time</code> as a reserved word permits the timing of
+shell builtins, shell functions, and pipelines.
+An external <code class="code">time</code> command cannot time these easily.
+</p>
+<p>When the shell is in <small class="sc">POSIX</small> mode (see <a class="pxref" href="Bash-POSIX-Mode.html">Bash and POSIX</a>),
+you can use <code class="code">time</code> by itself as a simple command.
+In this case, the shell displays the
+total user and system time consumed by the shell and its children.
+The <code class="env">TIMEFORMAT</code> variable specifies the format of the time information.
+</p>
+<p>If a pipeline is not executed asynchronously (see <a class="pxref" href="Lists.html">Lists of Commands</a>), the
+shell waits for all commands in the pipeline to complete.
+</p>
+<p>Each command in a multi-command pipeline,
+where pipes are created,
+is executed in its own <em class="dfn">subshell</em>, which is a
+separate process (see <a class="pxref" href="Command-Execution-Environment.html">Command Execution Environment</a>).
+If the <code class="code">lastpipe</code> option is enabled using the <code class="code">shopt</code> builtin
+(see <a class="pxref" href="The-Shopt-Builtin.html">The Shopt Builtin</a>),
+and  job control is not active,
+the last element of a pipeline may be run by the shell process.
+</p>
+<p>The exit
+status of a pipeline is the exit status of the last command in the
+pipeline, unless the <code class="code">pipefail</code> option is enabled
+(see <a class="pxref" href="The-Set-Builtin.html">The Set Builtin</a>).
+If <code class="code">pipefail</code> is enabled, the pipeline’s return status is the
+value of the last (rightmost) command to exit with a non-zero status,
+or zero if all commands exit successfully.
+If the reserved word ‘<samp class="samp">!</samp>’ precedes the pipeline, the
+exit status is the logical negation of the exit status as described
+above.
+If a pipeline is not executed asynchronously (see <a class="pxref" href="Lists.html">Lists of Commands</a>), the
+shell waits for all commands in the pipeline to terminate before
+returning a value.
+The return status of an asynchronous pipeline is 0.
+</p>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="Lists.html">Lists of Commands</a>, Previous: <a href="Simple-Commands.html">Simple Commands</a>, Up: <a href="Shell-Commands.html">Shell Commands</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+
+
+</body></html>

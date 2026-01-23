@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<!-- Created by GNU Texinfo 7.2, https://www.gnu.org/software/texinfo/ -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- This text is a brief description of the features that are present in
+the Bash shell (version 5.3, 18 May 2025).
+
+This is Edition 5.3, last updated 18 May 2025,
+of The GNU Bash Reference Manual,
+for Bash, Version 5.3.
+
+Copyright © 1988-2025 Free Software Foundation, Inc.
+
+Permission is granted to copy, distribute and/or modify this document
+under the terms of the GNU Free Documentation License, Version 1.3 or
+any later version published by the Free Software Foundation; with no
+Invariant Sections, no Front-Cover Texts, and no Back-Cover Texts.
+A copy of the license is included in the section entitled
+"GNU Free Documentation License". -->
+<title>Controlling the Prompt</title>
+
+<meta name="description" content="Controlling the Prompt (Bash Reference Manual)">
+<meta name="keywords" content="Controlling the Prompt (Bash Reference Manual)">
+<meta name="resource-type" content="document">
+<meta name="distribution" content="global">
+<meta name="Generator" content="makeinfo">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<link href="index.html" rel="start" title="Top">
+<link href="Indexes.html" rel="index" title="Indexes">
+<link href="index.html#SEC_Contents" rel="contents" title="Table of Contents">
+<link href="Bash-Features.html" rel="up" title="Bash Features">
+<link href="The-Restricted-Shell.html" rel="next" title="The Restricted Shell">
+<link href="The-Directory-Stack.html" rel="prev" title="The Directory Stack">
+<style type="text/css">
+<!--
+a.copiable-link {visibility: hidden; text-decoration: none; line-height: 0em}
+span:hover a.copiable-link {visibility: visible}
+-->
+</style>
+<link rel="stylesheet" type="text/css" href="">
+
+
+</head>
+
+<body lang="en">
+<div class="section-level-extent" id="Controlling-the-Prompt">
+<div class="nav-panel">
+<p>
+Next: <a href="The-Restricted-Shell.html" accesskey="n" rel="next">The Restricted Shell</a>, Previous: <a href="The-Directory-Stack.html" accesskey="p" rel="prev">The Directory Stack</a>, Up: <a href="Bash-Features.html" accesskey="u" rel="up">Bash Features</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+<hr>
+<h3 class="section" id="Controlling-the-Prompt-1"><span>6.9 Controlling the Prompt<a class="copiable-link" href="#Controlling-the-Prompt-1"> &para;</a></span></h3>
+<a class="index-entry-id" id="index-prompting"></a>
+
+<p>In addition, the following table describes the special characters which
+can appear in the prompt variables <code class="env">PS0</code>, <code class="env">PS1</code>, <code class="env">PS2</code>, and
+<code class="env">PS4</code>:
+</p>
+<dl class="table">
+<dt><code class="code">\a</code></dt>
+<dd><p>A bell character.
+</p></dd>
+<dt><code class="code">\d</code></dt>
+<dd><p>The date, in &quot;Weekday Month Date&quot; format (e.g., &quot;Tue May 26&quot;).
+</p></dd>
+<dt><code class="code">\D{<var class="var">format</var>}</code></dt>
+<dd><p>The <var class="var">format</var> is passed to <code class="code">strftime</code>(3) and the result is inserted
+into the prompt string; an empty <var class="var">format</var> results in a locale-specific
+time representation.
+The braces are required.
+</p></dd>
+<dt><code class="code">\e</code></dt>
+<dd><p>An escape character.
+</p></dd>
+<dt><code class="code">\h</code></dt>
+<dd><p>The hostname, up to the first &lsquo;<samp class="samp">.</samp>&rsquo;.
+</p></dd>
+<dt><code class="code">\H</code></dt>
+<dd><p>The hostname.
+</p></dd>
+<dt><code class="code">\j</code></dt>
+<dd><p>The number of jobs currently managed by the shell.
+</p></dd>
+<dt><code class="code">\l</code></dt>
+<dd><p>The basename of the shell&rsquo;s terminal device name (e.g., &quot;ttys0&quot;).
+</p></dd>
+<dt><code class="code">\n</code></dt>
+<dd><p>A newline.
+</p></dd>
+<dt><code class="code">\r</code></dt>
+<dd><p>A carriage return.
+</p></dd>
+<dt><code class="code">\s</code></dt>
+<dd><p>The name of the shell: the basename of <code class="code">$0</code> (the portion
+following the final slash).
+</p></dd>
+<dt><code class="code">\t</code></dt>
+<dd><p>The time, in 24-hour HH:MM:SS format.
+</p></dd>
+<dt><code class="code">\T</code></dt>
+<dd><p>The time, in 12-hour HH:MM:SS format.
+</p></dd>
+<dt><code class="code">\@</code></dt>
+<dd><p>The time, in 12-hour am/pm format.
+</p></dd>
+<dt><code class="code">\A</code></dt>
+<dd><p>The time, in 24-hour HH:MM format.
+</p></dd>
+<dt><code class="code">\u</code></dt>
+<dd><p>The username of the current user.
+</p></dd>
+<dt><code class="code">\v</code></dt>
+<dd><p>The Bash version (e.g., 2.00).
+</p></dd>
+<dt><code class="code">\V</code></dt>
+<dd><p>The Bash release, version + patchlevel (e.g., 2.00.0).
+</p></dd>
+<dt><code class="code">\w</code></dt>
+<dd><p>The value of the <code class="code">PWD</code> shell variable (<code class="env">$PWD</code>),
+with <code class="env">$HOME</code> abbreviated with a tilde
+(uses the <code class="env">$PROMPT_DIRTRIM</code> variable).
+</p></dd>
+<dt><code class="code">\W</code></dt>
+<dd><p>The basename of <code class="env">$PWD</code>, with <code class="env">$HOME</code> abbreviated with a tilde.
+</p></dd>
+<dt><code class="code">\!</code></dt>
+<dd><p>The history number of this command.
+</p></dd>
+<dt><code class="code">\#</code></dt>
+<dd><p>The command number of this command.
+</p></dd>
+<dt><code class="code">\$</code></dt>
+<dd><p>If the effective uid is 0, <code class="code">#</code>, otherwise <code class="code">$</code>.
+</p></dd>
+<dt><code class="code">\<var class="var">nnn</var></code></dt>
+<dd><p>The character whose ASCII code is the octal value <var class="var">nnn</var>.
+</p></dd>
+<dt><code class="code">\\</code></dt>
+<dd><p>A backslash.
+</p></dd>
+<dt><code class="code">\[</code></dt>
+<dd><p>Begin a sequence of non-printing characters.
+Thiss could be used to
+embed a terminal control sequence into the prompt.
+</p></dd>
+<dt><code class="code">\]</code></dt>
+<dd><p>End a sequence of non-printing characters.
+</p></dd>
+</dl>
+
+<p>The command number and the history number are usually different:
+the history number of a command is its position in the history
+list, which may include commands restored from the history file
+(see <a class="pxref" href="Bash-History-Facilities.html">Bash History Facilities</a>), while the command number is
+the position in the sequence of commands executed during the current
+shell session.
+</p>
+<p>After the string is decoded, it is expanded via
+parameter expansion, command substitution, arithmetic
+expansion, and quote removal, subject to the value of the
+<code class="code">promptvars</code> shell option (see <a class="pxref" href="The-Shopt-Builtin.html">The Shopt Builtin</a>).
+This can have unwanted side effects if escaped portions of the string
+appear within command substitution or contain characters special to
+word expansion.
+</p>
+</div>
+<hr>
+<div class="nav-panel">
+<p>
+Next: <a href="The-Restricted-Shell.html">The Restricted Shell</a>, Previous: <a href="The-Directory-Stack.html">The Directory Stack</a>, Up: <a href="Bash-Features.html">Bash Features</a> &nbsp; [<a href="index.html#SEC_Contents" title="Table of contents" rel="contents">Contents</a>][<a href="Indexes.html" title="Index" rel="index">Index</a>]</p>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<idea-plugin>
+    <id>com.github.clion.docsetviewer</id>
+    <name>IntelliJ Docset Viewer</name>
+    <vendor url="https://github.com/VanillaFairy/clion-docset-viewer">VanillaFairy</vendor>
+
+    <description><![CDATA[
+    <p>View Dash/Zeal-compatible docsets directly in your JetBrains IDE.</p>
+
+    <h3>Features:</h3>
+    <ul>
+        <li>Open .docset bundles and browse documentation</li>
+        <li>Search across all loaded docsets</li>
+        <li>Find documentation for token under caret</li>
+        <li>Import docsets from Zeal</li>
+        <li>Render HTML documentation using JCEF</li>
+        <li>Navigate with back/forward history</li>
+    </ul>
+
+    <h3>Keyboard Shortcuts:</h3>
+    <ul>
+        <li><b>F1</b> or <b>Ctrl+Shift+D</b> - Find in Docsets (search for token under caret)</li>
+        <li><b>Ctrl+Alt+D</b> - Search Docsets (global search)</li>
+    </ul>
+
+    <h3>Usage:</h3>
+    <ol>
+        <li>Configure docset paths in Settings &gt; Tools &gt; Docset Viewer</li>
+        <li>Or click "Import from Zeal" to auto-detect Zeal docsets</li>
+        <li>Place caret on a token and press Ctrl+Shift+D to find docs</li>
+        <li>Or right-click and select "Find in Docsets"</li>
+        <li>Use the Docsets tool window to browse and search</li>
+    </ol>
+
+    <p>Compatible with docsets from <a href="https://kapeli.com/dash">Dash</a> and <a href="https://zealdocs.org">Zeal</a>.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Settings -->
+        <applicationService
+                serviceImplementation="com.github.clion.docsetviewer.settings.DocsetSettings"/>
+
+        <applicationConfigurable
+                parentId="tools"
+                instance="com.github.clion.docsetviewer.settings.DocsetSettingsConfigurable"
+                id="com.github.clion.docsetviewer.settings"
+                displayName="Docset Viewer"/>
+
+        <!-- Index Service -->
+        <applicationService
+                serviceImplementation="com.github.clion.docsetviewer.core.index.DocsetIndexService"/>
+
+        <!-- File Editor -->
+        <fileEditorProvider
+                implementation="com.github.clion.docsetviewer.editor.DocsetFileEditorProvider"/>
+
+        <!-- Tool Window -->
+        <toolWindow
+                id="Docsets"
+                anchor="right"
+                factoryClass="com.github.clion.docsetviewer.ui.toolwindow.DocsetToolWindowFactory"
+                icon="AllIcons.Toolwindows.Documentation"/>
+
+        <!-- Startup Activity -->
+        <postStartupActivity
+                implementation="com.github.clion.docsetviewer.actions.DocsetStartupActivity"/>
+    </extensions>
+
+    <actions>
+        <!-- Find in Docsets - editor action with context menu and shortcut -->
+        <action id="DocsetViewer.FindInDocsets"
+                class="com.github.clion.docsetviewer.actions.FindInDocsetsAction"
+                text="Find in Docsets"
+                description="Search for the current token in documentation">
+            <keyboard-shortcut first-keystroke="F1" keymap="$default"/>
+            <keyboard-shortcut first-keystroke="control shift D" keymap="$default"/>
+            <add-to-group group-id="EditorPopupMenu" anchor="after" relative-to-action="QuickJavaDoc"/>
+            <add-to-group group-id="ConsoleEditorPopupMenu" anchor="last"/>
+        </action>
+
+        <group id="DocsetViewer.Menu" text="Docsets" description="Docset viewer actions">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+
+            <action id="DocsetViewer.OpenDocset"
+                    class="com.github.clion.docsetviewer.actions.OpenDocsetAction"
+                    text="Add Docset..."
+                    description="Add a docset folder"/>
+
+            <action id="DocsetViewer.SearchDocset"
+                    class="com.github.clion.docsetviewer.actions.SearchDocsetAction"
+                    text="Search Docsets"
+                    description="Search across all docsets">
+                <keyboard-shortcut first-keystroke="control alt D" keymap="$default"/>
+            </action>
+
+            <reference ref="DocsetViewer.FindInDocsets"/>
+        </group>
+    </actions>
+</idea-plugin>

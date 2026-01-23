@@ -1,0 +1,35 @@
+# Gradle
+.gradle/
+.intellijPlatform/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.ipr
+*.iws
+out/
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Local configuration
+local.properties
+
+# Claude Code
+.claude/
+
+# Logs
+*.log
+
+# Kotlin
+*.class
+.kotlin/
+
+# Runtime data
+*.pid
+*.seed
+*.pid.lock

@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  
+<!-- Mirrored from www.chaijs.com/guide/using-chai-with-esm-and-plugins/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:15 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=utf-8" /><!-- /Added by HTTrack -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Using Chai with ESM and Plugins</title>
+    <meta name="description" content="Using Chai with ESM and Plugins">
+
+    <link rel='icon' type='image/x-icon' href="../../img/favicon.ico">
+    <link rel="canonical" href="index.html">
+
+    <script src="../../../ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script src="../../js/jquery-mousewheel.js"></script>
+    <script src="../../js/antiscroll.js"></script>
+    <script src="../../js/main.js"></script>
+    <script src="../../chai.js"></script>
+
+    <link rel='stylesheet', href="../../css/antiscroll.css" type="text/css" media="all">
+    <link rel='stylesheet', href="../../css/main.css" type="text/css" media="all">
+    <script type='text/javascript'>
+        var mpq = [];
+        mpq.push(["init", "d5e84615dbd02dbc359b0f76d0ed7cf5"]);
+        (function(){var b,a,e,d,c;b=document.createElement("script");b.type="text/javascript";
+        b.async=true;b.src=(document.location.protocol==="https:"?"https:":"http:")+
+        ""exit/site_media/js/api/mixpanel.js";a=document.getElementsByTagName("script")[0];
+        a.parentNode.insertBefore(b,a);e=function(f){return function(){mpq.push(
+        [f].concat(Array.prototype.slice.call(arguments,0)))}};d=["init","track","track_links",
+        "track_forms","register","register_once","identify","name_tag","set_config"];for(c=0;c<
+        d.length;c++){mpq[d[c]]=e(d[c])}})();
+    </script>
+    <script type='text/javascript'>
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-26183904-6']);
+        _gaq.push(['_trackPageview']);
+        (function() {
+          var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+          ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+          var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+</head>
+
+
+  <body class="guide">
+
+    <nav id="primary">
+    <div class="nav-wrap">
+        <div class="logo">
+            <h1><a href="https://www.chaijs.com/">Chai Assertion Library</a></h1>
+        </div>
+        <div class="navlist">
+            <ul>
+                <li><a href="../index.html">Guide</a></li>
+                <li><a href="../../api/index.html">API</a></li>
+                <li><a href="https://www.chaijs.com/plugins">Plugins</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+
+    <div class="content">
+      <section id="content">
+        <nav id="guide" class="sidebar sticky">
+
+    
+    
+      
+      
+      
+      
+      <div id="getting-started-guide" class="item primary">
+          
+            <span class="star"></span>
+          
+          <a href="../index.html" class="title">Getting Started Guide</a>
+      </div>
+      
+      
+        <div class="line"></div>
+      
+    
+      
+      
+      
+      
+      <div id="installation" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../installation/index.html" class="title">Installation</a>
+      </div>
+      
+      <div id="installation" class="subitems">
+          
+          
+          <a href="../installation/index.html#nodejs" class="item secondary group-installation">Node.js</a>
+          
+          
+          <a href="../installation/index.html#browser" class="item secondary group-installation">Browser</a>
+          
+          
+          <a href="../installation/index.html#other-platforms" class="item secondary group-installation">Other Platforms</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="assertion-styles" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../styles/index.html" class="title">Assertion Styles</a>
+      </div>
+      
+      <div id="assertion-styles" class="subitems">
+          
+          
+          <a href="../styles/index.html#assert" class="item secondary group-assertion-styles">Assert</a>
+          
+          
+          <a href="../styles/index.html#expect" class="item secondary group-assertion-styles">Expect</a>
+          
+          
+          <a href="../styles/index.html#should" class="item secondary group-assertion-styles">Should</a>
+          
+          
+          <a href="../styles/index.html#differences" class="item secondary group-assertion-styles">Differences</a>
+          
+          
+          <a href="../styles/index.html#should-extras" class="item secondary group-assertion-styles">Should Extras</a>
+          
+          
+          <a href="../styles/index.html#configuration" class="item secondary group-assertion-styles">Configuration</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="using-chai-with-esm-and-plugins" class="item primary active expanded">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="index.html" class="title">Using Chai with ESM and Plugins</a>
+      </div>
+      
+      <div id="using-chai-with-esm-and-plugins" class="subitems">
+          
+          
+          <a href="index.html#importing-chai" class="item secondary group-using-chai-with-esm-and-plugins expanded">Importing Chai</a>
+          
+          
+          <a href="index.html#using-plugins" class="item secondary group-using-chai-with-esm-and-plugins expanded">Using Plugins</a>
+          
+          
+          <a href="index.html#exposing-globals-in-plugins" class="item secondary group-using-chai-with-esm-and-plugins expanded">Exposing Globals in Plugins</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="core-plugin-concepts" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../plugins/index.html" class="title">Core Plugin Concepts</a>
+      </div>
+      
+      <div id="core-plugin-concepts" class="subitems">
+          
+          
+          <a href="../plugins/index.html#accessing-utilities" class="item secondary group-core-plugin-concepts">Accessing Utilities</a>
+          
+          
+          <a href="../plugins/index.html#using-flags" class="item secondary group-core-plugin-concepts">Using Flags</a>
+          
+          
+          <a href="../plugins/index.html#composing-an-assertion" class="item secondary group-core-plugin-concepts">Composing an Assertion</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="building-a-helper" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../helpers/index.html" class="title">Building a Helper</a>
+      </div>
+      
+      <div id="building-a-helper" class="subitems">
+          
+          
+          <a href="../helpers/index.html#adding-language-chains" class="item secondary group-building-a-helper">Adding Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#adding-properties" class="item secondary group-building-a-helper">Adding Properties</a>
+          
+          
+          <a href="../helpers/index.html#adding-methods" class="item secondary group-building-a-helper">Adding Methods</a>
+          
+          
+          <a href="../helpers/index.html#methods-as-properties" class="item secondary group-building-a-helper">Methods as Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-language-chains" class="item secondary group-building-a-helper">Overwriting Language Chains</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-properties" class="item secondary group-building-a-helper">Overwriting Properties</a>
+          
+          
+          <a href="../helpers/index.html#overwriting-methods" class="item secondary group-building-a-helper">Overwriting Methods</a>
+          
+      </div>
+      
+      
+    
+      
+      
+      
+      
+      <div id="resources" class="item primary">
+          
+            <span class="expand">+</span>
+            <span class="collapse">-</span>
+          
+          <a href="../resources/index.html" class="title">Resources</a>
+      </div>
+      
+      <div id="resources" class="subitems">
+          
+          
+          <a href="../resources/index.html#getting-help" class="item secondary group-resources">Getting Help</a>
+          
+          
+          <a href="../resources/index.html#contributing" class="item secondary group-resources">Contributing</a>
+          
+      </div>
+      
+      
+    
+</nav>
+<div class="documentation">
+    <div class="wrap">
+        <div class="rendered">
+            <h1 id="using-chai-with-esm-and-plugins">Using Chai with ESM and Plugins</h1>
+
+<p>This guide provides an overview of how to use Chai with ECMAScript modules (ESM) and plugins, including examples using the <code class="language-js highlighter-rouge"><span class="nx">chai</span><span class="o">-</span><span class="nx">http</span></code> plugin.</p>
+
+<h2 id="importing-chai">Importing Chai</h2>
+
+<p>To use Chai with ESM, you can import Chai in your test files using the <code class="language-js highlighter-rouge"><span class="k">import</span></code> statement. Here’s how you can import the <code class="language-js highlighter-rouge"><span class="nx">expect</span></code> interface:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">expect</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h2 id="using-plugins">Using Plugins</h2>
+
+<p>Chai plugins can extend Chai’s capabilities. To use a plugin, you first need to install it, then use the <code class="language-js highlighter-rouge"><span class="nx">use</span></code> method to load it. Here’s how to use the <code class="language-js highlighter-rouge"><span class="nx">chai</span><span class="o">-</span><span class="nx">http</span></code> plugin as an example:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">chai</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">request</span><span class="p">,</span> <span class="k">default</span> <span class="k">as</span> <span class="nx">chaiHttp</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai-http</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="nx">chai</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">chaiHttp</span><span class="p">);</span>
+
+<span class="c1">// Now you can use `chai-http` using the `request` function.</span>
+</code></pre></div></div>
+
+<h3 id="chai-http-example">chai-http Example</h3>
+
+<p>Here’s an example of using <code class="language-js highlighter-rouge"><span class="nx">chai</span><span class="o">-</span><span class="nx">http</span></code> to test an HTTP GET request:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">chai</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">request</span><span class="p">,</span> <span class="k">default</span> <span class="k">as</span> <span class="nx">chaiHttp</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">chai-http</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="p">{</span><span class="nx">expect</span><span class="p">}</span> <span class="o">=</span> <span class="nx">chai</span><span class="p">;</span>
+
+<span class="nx">chai</span><span class="p">.</span><span class="nx">use</span><span class="p">(</span><span class="nx">chaiHttp</span><span class="p">);</span>
+
+<span class="nx">describe</span><span class="p">(</span><span class="dl">'</span><span class="s1">GET /user</span><span class="dl">'</span><span class="p">,</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">it</span><span class="p">(</span><span class="dl">'</span><span class="s1">should return the user</span><span class="dl">'</span><span class="p">,</span> <span class="nx">done</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">request</span><span class="p">(</span><span class="dl">'</span><span class="s1">http://example.com</span><span class="dl">'</span><span class="p">)</span>
+      <span class="p">.</span><span class="kd">get</span><span class="p">(</span><span class="dl">'</span><span class="s1">/user</span><span class="dl">'</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">end</span><span class="p">((</span><span class="nx">err</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">have</span><span class="p">.</span><span class="nx">status</span><span class="p">(</span><span class="mi">200</span><span class="p">);</span>
+        <span class="nx">expect</span><span class="p">(</span><span class="nx">res</span><span class="p">.</span><span class="nx">body</span><span class="p">).</span><span class="nx">to</span><span class="p">.</span><span class="nx">be</span><span class="p">.</span><span class="nx">an</span><span class="p">(</span><span class="dl">'</span><span class="s1">object</span><span class="dl">'</span><span class="p">);</span>
+        <span class="nx">done</span><span class="p">();</span>
+      <span class="p">});</span>
+  <span class="p">});</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+        </div>
+    </div>
+</div>
+
+<script src="../../js/guide.js"></script>
+
+      </section>
+    </div>
+
+    <footer>
+    <section id="footer">
+        <div class="branding">
+            <h3 class="fancy">
+                <a href="https://www.chaijs.com/">Chai Assertion Library</a>
+            </h3>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../installation/index.html">Installation</a></li>
+                <li><a href="../styles/index.html">Interface Styles</a></li>
+                <li><a href="../plugins/index.html">Developing Plugins</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../../api/bdd/index.html">Expect / Should API</a></li>
+                <li><a href="../../api/assert/index.html">Assert API</a></li>
+                <li><a href="../../api/plugins/index.html">Plugin Utility API</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="../resources/index.html">Getting Help</a></li>
+                <li><a href="../../api/test/index.html">Test Suite</a></li>
+                <li><a href="https://www.chaijs.com/releases" target="_blank">Releases</a></li>
+            </ul>
+        </div>
+        <div class="list">
+            <ul>
+                <li><a href="https://github.com/chaijs/chai/issues" target="_blank">Issues</a></li>
+                <li><a href="https://groups.google.com/group/chaijs" target="_blank">Google Group</a></li>
+                <li><a href="https://github.com/chaijs/chai/actions" target="_blank">Build Status</a></li>
+            </ul>
+        </div>
+    </section>
+</footer>
+
+
+  </body>
+
+
+<!-- Mirrored from www.chaijs.com/guide/using-chai-with-esm-and-plugins/ by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 15 Apr 2025 08:02:15 GMT -->
+</html>

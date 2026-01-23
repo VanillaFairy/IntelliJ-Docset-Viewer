@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 300;
+  src: url(../fonts.gstatic.com/s/lato/v24/S6u9w4BMUTPHh7USSwiPHA.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Redressed';
+  font-style: normal;
+  font-weight: 400;
+  src: url(../fonts.gstatic.com/s/redressed/v30/x3dickHUbrmJ7wMy9Msxe_oG.ttf) format('truetype');
+}
+
+#primary {display:none !important} .rendered h1[id]:before, .rendered h2[id]:before, .rendered h3[id]:before, .rendered h4[id]:before, .rendered div[id]:before {display:none !important} body {background-color:#faf4e8 !important; padding-top:0px !important} .sidebar {display:none !important} .documentation{display:block !important; float:none !important; margin:0px !important; min-width:0px !important; max-width:none !important;} #content {padding: 0 20px !important; width:auto !important} footer {display:none !important} #content {padding-left:0px !important; padding-right:0px !important} .content {background:white !important; padding-top:0px !important} .documentation {box-shadow:none !important} body{background-color:white !important} body .wrap {padding:0px !important} section#content {padding: 20px !important} 
