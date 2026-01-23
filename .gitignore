@@ -21,6 +21,7 @@ local.properties
 
 # Claude Code
 .claude/
+CLAUDE.local.md
 
 # Logs
 *.log
