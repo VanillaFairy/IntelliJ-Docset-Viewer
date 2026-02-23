@@ -18,19 +18,19 @@ import javax.swing.JPopupMenu
 import javax.swing.SwingUtilities
 
 /**
- * Toolbar button for back navigation.
- * Left-click goes back one step. Right-click shows back history popup.
+ * Toolbar button for forward navigation.
+ * Left-click goes forward one step. Right-click shows forward history popup.
  */
-class BackAction(
+class ForwardAction(
     private val browserPanel: DocsetBrowserPanel
-) : AnAction("Back", "Go back (right-click for history)", AllIcons.Actions.Back), CustomComponentAction {
+) : AnAction("Forward", "Go forward (right-click for history)", AllIcons.Actions.Forward), CustomComponentAction {
 
     override fun actionPerformed(e: AnActionEvent) {
-        browserPanel.goBack()
+        browserPanel.goForward()
     }
 
     override fun update(e: AnActionEvent) {
-        val enabled = browserPanel.canGoBack()
+        val enabled = browserPanel.canGoForward()
         e.presentation.isEnabled = enabled
         val component = e.presentation.getClientProperty(CustomComponentAction.COMPONENT_KEY) as? JComponent
         component?.isEnabled = enabled
@@ -39,13 +39,13 @@ class BackAction(
     override fun getActionUpdateThread() = ActionUpdateThread.EDT
 
     override fun createCustomComponent(presentation: Presentation, place: String): JComponent {
-        val button = JButton(AllIcons.Actions.Back).apply {
+        val button = JButton(AllIcons.Actions.Forward).apply {
             isContentAreaFilled = false
             isBorderPainted = false
             isOpaque = false
             border = JBUI.Borders.empty(4)
             preferredSize = ActionToolbar.DEFAULT_MINIMUM_BUTTON_SIZE
-            toolTipText = "Back (right-click for history)"
+            toolTipText = "Forward (right-click for history)"
             isEnabled = presentation.isEnabled
         }
 
@@ -61,12 +61,12 @@ class BackAction(
     }
 
     private fun showHistoryPopup(component: JComponent) {
-        val entries = browserPanel.getHistory().getBackEntries()
+        val entries = browserPanel.getHistory().getForwardEntries()
         if (entries.isEmpty()) return
         val menu = JPopupMenu()
         entries.forEachIndexed { index, entry ->
             val item = JMenuItem(entry.title)
-            item.addActionListener { browserPanel.goBackTo(index) }
+            item.addActionListener { browserPanel.goForwardTo(index) }
             menu.add(item)
         }
         menu.show(component, 0, component.height)
