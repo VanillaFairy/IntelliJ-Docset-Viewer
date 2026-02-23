@@ -5,6 +5,7 @@ import com.intellij.openapi.util.Disposer
 import com.intellij.ui.JBColor
 import com.intellij.ui.jcef.JBCefApp
 import com.intellij.ui.jcef.JBCefBrowser
+import com.intellij.ui.jcef.JBCefJSQuery
 import org.cef.browser.CefBrowser
 import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandlerAdapter
@@ -24,6 +25,10 @@ class DocsetBrowserPanel(
     private var browser: JBCefBrowser? = null
     private val history = NavigationHistory()
     private var loadListener: ((String) -> Unit)? = null
+    private var titleQuery: JBCefJSQuery? = null
+
+    var homeUrl: String? = null
+        private set
 
     val component: JComponent
         get() = this
@@ -42,15 +47,41 @@ class DocsetBrowserPanel(
 
     private fun setupBrowser() {
         val cefBrowser = browser?.cefBrowser ?: return
-        browser?.jbCefClient?.addLoadHandler(object : CefLoadHandlerAdapter() {
+        val jbBrowser = browser ?: return
+
+        // Create a JS query handler for receiving page titles
+        titleQuery = JBCefJSQuery.create(jbBrowser).also { query ->
+            query.addHandler { title ->
+                val url = cefBrowser.url ?: return@addHandler null
+                history.push(url, title)
+                loadListener?.invoke(url)
+                null
+            }
+        }
+
+        jbBrowser.jbCefClient.addLoadHandler(object : CefLoadHandlerAdapter() {
             override fun onLoadEnd(browser: CefBrowser?, frame: CefFrame?, httpStatusCode: Int) {
                 if (frame?.isMain == true) {
                     val url = browser?.url ?: return
-                    history.push(url)
+
+                    // Push with URL-derived fallback title immediately
+                    val fallbackTitle = extractFilenameFromUrl(url)
+                    history.push(url, fallbackTitle)
                     loadListener?.invoke(url)
 
-                    // Signal color scheme preference to the page
+                    // Inject color scheme preference
                     injectColorSchemePreference(browser)
+
+                    // Then get actual page title via JS and update
+                    val titleJs = """
+                        (function() {
+                            var title = document.title || '';
+                            if (title) {
+                                ${titleQuery!!.inject("title")}
+                            }
+                        })();
+                    """.trimIndent()
+                    browser.executeJavaScript(titleJs, url, 0)
                 }
             }
         }, cefBrowser)
@@ -152,6 +183,16 @@ class DocsetBrowserPanel(
         }
     }
 
+    private fun extractFilenameFromUrl(url: String): String {
+        return try {
+            val path = java.net.URI(url).path ?: url
+            val filename = path.substringAfterLast('/')
+            filename.substringBeforeLast('.').ifEmpty { url }
+        } catch (e: Exception) {
+            url
+        }
+    }
+
     /**
      * Loads a URL in the browser.
      */
@@ -178,14 +219,28 @@ class DocsetBrowserPanel(
      * Navigates back in history.
      */
     fun goBack() {
-        history.goBack()?.let { browser?.loadURL(it) }
+        history.goBack()?.let { browser?.loadURL(it.url) }
     }
 
     /**
      * Navigates forward in history.
      */
     fun goForward() {
-        history.goForward()?.let { browser?.loadURL(it) }
+        history.goForward()?.let { browser?.loadURL(it.url) }
+    }
+
+    /**
+     * Jumps back to the entry at the given index in back history.
+     */
+    fun goBackTo(index: Int) {
+        history.goBackTo(index)?.let { browser?.loadURL(it.url) }
+    }
+
+    /**
+     * Jumps forward to the entry at the given index in forward history.
+     */
+    fun goForwardTo(index: Int) {
+        history.goForwardTo(index)?.let { browser?.loadURL(it.url) }
     }
 
     /**
@@ -194,6 +249,26 @@ class DocsetBrowserPanel(
     fun reload() {
         browser?.cefBrowser?.reload()
     }
+
+    /**
+     * Navigates to the home page (docset index).
+     */
+    fun goHome() {
+        homeUrl?.let { browser?.loadURL(it) }
+    }
+
+    /**
+     * Sets the home URL for this browser panel.
+     * Typically the docset's index page.
+     */
+    fun setHomeUrl(url: String) {
+        this.homeUrl = url
+    }
+
+    /**
+     * Gets the navigation history.
+     */
+    fun getHistory(): NavigationHistory = history
 
     /**
      * Sets a listener for URL load events.
@@ -213,6 +288,8 @@ class DocsetBrowserPanel(
     fun getBrowser(): JBCefBrowser? = browser
 
     override fun dispose() {
+        titleQuery?.let { Disposer.dispose(it) }
+        titleQuery = null
         browser?.let { Disposer.dispose(it) }
         browser = null
     }
