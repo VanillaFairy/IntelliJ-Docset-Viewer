@@ -5,6 +5,7 @@ import io.github.vanillafairy.docsetviewer.core.model.Docset
 import io.github.vanillafairy.docsetviewer.core.model.DocsetEntry
 import io.github.vanillafairy.docsetviewer.core.model.DocsetType
 import io.github.vanillafairy.docsetviewer.editor.DocsetBrowserPanel
+import io.github.vanillafairy.docsetviewer.editor.DocsetNavigationToolbar
 import com.intellij.openapi.Disposable
 import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.project.Project
@@ -64,7 +65,12 @@ class DocsetToolWindowPanel(
         // Main split: tree panel on the left and browser on the right
         val mainSplitter = JBSplitter(false, 0.25f)
         mainSplitter.firstComponent = treePanel
-        mainSplitter.secondComponent = browserPanel.component
+        // Browser panel with navigation toolbar above it
+        val browserWithToolbar = JPanel(BorderLayout())
+        val toolbar = DocsetNavigationToolbar(browserPanel, browserWithToolbar)
+        browserWithToolbar.add(toolbar.component, BorderLayout.NORTH)
+        browserWithToolbar.add(browserPanel.component, BorderLayout.CENTER)
+        mainSplitter.secondComponent = browserWithToolbar
 
         add(mainSplitter, BorderLayout.CENTER)
     }
@@ -182,6 +188,12 @@ class DocsetToolWindowPanel(
         val fullPath = docset.resolveDocumentPath(entry.path).toFile()
 
         if (fullPath.exists()) {
+            // Set home URL for this docset
+            val indexFile = docset.documentsPath.resolve("index.html").toFile()
+            if (indexFile.exists()) {
+                browserPanel.setHomeUrl(indexFile.toURI().toString())
+            }
+
             browserPanel.loadUrl(fullPath.toURI().toString())
         }
     }
