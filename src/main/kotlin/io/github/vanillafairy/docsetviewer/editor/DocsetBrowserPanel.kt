@@ -10,6 +10,8 @@ import org.cef.browser.CefBrowser
 import org.cef.browser.CefFrame
 import org.cef.handler.CefLoadHandlerAdapter
 import java.awt.BorderLayout
+import java.awt.event.MouseAdapter
+import java.awt.event.MouseEvent
 import javax.swing.JComponent
 import javax.swing.JLabel
 import javax.swing.JPanel
@@ -25,9 +27,8 @@ class DocsetBrowserPanel(
     private var browser: JBCefBrowser? = null
     private val history = NavigationHistory()
     private var loadListener: ((String) -> Unit)? = null
+    private val navigationListeners = mutableListOf<() -> Unit>()
     private var titleQuery: JBCefJSQuery? = null
-    private var mouseBackQuery: JBCefJSQuery? = null
-    private var mouseForwardQuery: JBCefJSQuery? = null
 
     var homeUrl: String? = null
         private set
@@ -41,6 +42,7 @@ class DocsetBrowserPanel(
         if (JBCefApp.isSupported()) {
             browser = JBCefBrowser()
             setupBrowser()
+            setupMouseNavigation()
             add(browser!!.component, BorderLayout.CENTER)
         } else {
             add(createFallbackPanel(), BorderLayout.CENTER)
@@ -56,21 +58,8 @@ class DocsetBrowserPanel(
             query.addHandler { title ->
                 val url = cefBrowser.url ?: return@addHandler null
                 history.push(url, title)
+                notifyNavigationListeners()
                 loadListener?.invoke(url)
-                null
-            }
-        }
-
-        mouseBackQuery = JBCefJSQuery.create(jbBrowser).also { query ->
-            query.addHandler {
-                goBack()
-                null
-            }
-        }
-
-        mouseForwardQuery = JBCefJSQuery.create(jbBrowser).also { query ->
-            query.addHandler {
-                goForward()
                 null
             }
         }
@@ -83,6 +72,7 @@ class DocsetBrowserPanel(
                     // Push with URL-derived fallback title immediately
                     val fallbackTitle = extractFilenameFromUrl(url)
                     history.push(url, fallbackTitle)
+                    notifyNavigationListeners()
                     loadListener?.invoke(url)
 
                     // Inject color scheme preference
@@ -98,29 +88,41 @@ class DocsetBrowserPanel(
                         })();
                     """.trimIndent()
                     browser.executeJavaScript(titleJs, url, 0)
-
-                    // Inject mouse button 4/5 (back/forward) handlers
-                    val mouseJs = """
-                        (function() {
-                            if (window.__docsetMouseHandlerInstalled) return;
-                            window.__docsetMouseHandlerInstalled = true;
-                            document.addEventListener('mouseup', function(e) {
-                                if (e.button === 3) {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    ${mouseBackQuery!!.inject("'back'")}
-                                } else if (e.button === 4) {
-                                    e.preventDefault();
-                                    e.stopPropagation();
-                                    ${mouseForwardQuery!!.inject("'forward'")}
-                                }
-                            }, true);
-                        })();
-                    """.trimIndent()
-                    browser.executeJavaScript(mouseJs, url, 0)
                 }
             }
         }, cefBrowser)
+    }
+
+    /**
+     * Intercepts mouse button 4/5 (back/forward) at the AWT level
+     * to prevent IntelliJ from handling them as editor navigation.
+     */
+    private fun setupMouseNavigation() {
+        val browserComponent = browser?.component ?: return
+        browserComponent.addMouseListener(object : MouseAdapter() {
+            override fun mousePressed(e: MouseEvent) {
+                when (e.button) {
+                    4 -> {
+                        e.consume()
+                        goBack()
+                    }
+                    5 -> {
+                        e.consume()
+                        goForward()
+                    }
+                }
+            }
+
+            override fun mouseReleased(e: MouseEvent) {
+                if (e.button == 4 || e.button == 5) {
+                    e.consume()
+                }
+            }
+        })
+    }
+
+    private fun notifyNavigationListeners() {
+        navigationListeners.forEach { it() }
     }
 
     /**
@@ -255,28 +257,40 @@ class DocsetBrowserPanel(
      * Navigates back in history.
      */
     fun goBack() {
-        history.goBack()?.let { browser?.loadURL(it.url) }
+        history.goBack()?.let {
+            browser?.loadURL(it.url)
+            notifyNavigationListeners()
+        }
     }
 
     /**
      * Navigates forward in history.
      */
     fun goForward() {
-        history.goForward()?.let { browser?.loadURL(it.url) }
+        history.goForward()?.let {
+            browser?.loadURL(it.url)
+            notifyNavigationListeners()
+        }
     }
 
     /**
      * Jumps back to the entry at the given index in back history.
      */
     fun goBackTo(index: Int) {
-        history.goBackTo(index)?.let { browser?.loadURL(it.url) }
+        history.goBackTo(index)?.let {
+            browser?.loadURL(it.url)
+            notifyNavigationListeners()
+        }
     }
 
     /**
      * Jumps forward to the entry at the given index in forward history.
      */
     fun goForwardTo(index: Int) {
-        history.goForwardTo(index)?.let { browser?.loadURL(it.url) }
+        history.goForwardTo(index)?.let {
+            browser?.loadURL(it.url)
+            notifyNavigationListeners()
+        }
     }
 
     /**
@@ -314,6 +328,14 @@ class DocsetBrowserPanel(
     }
 
     /**
+     * Adds a listener that is notified when navigation state changes
+     * (page loaded, back/forward performed). Used by toolbar to refresh button state.
+     */
+    fun addNavigationListener(listener: () -> Unit) {
+        navigationListeners.add(listener)
+    }
+
+    /**
      * Returns true if JCEF is supported.
      */
     fun isBrowserSupported(): Boolean = JBCefApp.isSupported()
@@ -324,10 +346,6 @@ class DocsetBrowserPanel(
     fun getBrowser(): JBCefBrowser? = browser
 
     override fun dispose() {
-        mouseBackQuery?.let { Disposer.dispose(it) }
-        mouseBackQuery = null
-        mouseForwardQuery?.let { Disposer.dispose(it) }
-        mouseForwardQuery = null
         titleQuery?.let { Disposer.dispose(it) }
         titleQuery = null
         browser?.let { Disposer.dispose(it) }

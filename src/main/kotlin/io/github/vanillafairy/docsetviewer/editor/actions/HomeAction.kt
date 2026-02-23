@@ -11,7 +11,7 @@ import io.github.vanillafairy.docsetviewer.editor.DocsetBrowserPanel
  */
 class HomeAction(
     private val browserPanel: DocsetBrowserPanel
-) : AnAction("Home", "Go to docset index page", AllIcons.Actions.ShowAsTree) {
+) : AnAction("Home", "Go to docset index page", AllIcons.Nodes.HomeFolder) {
 
     override fun actionPerformed(e: AnActionEvent) {
         browserPanel.goHome()
