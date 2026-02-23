@@ -26,6 +26,8 @@ class DocsetBrowserPanel(
     private val history = NavigationHistory()
     private var loadListener: ((String) -> Unit)? = null
     private var titleQuery: JBCefJSQuery? = null
+    private var mouseBackQuery: JBCefJSQuery? = null
+    private var mouseForwardQuery: JBCefJSQuery? = null
 
     var homeUrl: String? = null
         private set
@@ -59,6 +61,20 @@ class DocsetBrowserPanel(
             }
         }
 
+        mouseBackQuery = JBCefJSQuery.create(jbBrowser).also { query ->
+            query.addHandler {
+                goBack()
+                null
+            }
+        }
+
+        mouseForwardQuery = JBCefJSQuery.create(jbBrowser).also { query ->
+            query.addHandler {
+                goForward()
+                null
+            }
+        }
+
         jbBrowser.jbCefClient.addLoadHandler(object : CefLoadHandlerAdapter() {
             override fun onLoadEnd(browser: CefBrowser?, frame: CefFrame?, httpStatusCode: Int) {
                 if (frame?.isMain == true) {
@@ -82,6 +98,26 @@ class DocsetBrowserPanel(
                         })();
                     """.trimIndent()
                     browser.executeJavaScript(titleJs, url, 0)
+
+                    // Inject mouse button 4/5 (back/forward) handlers
+                    val mouseJs = """
+                        (function() {
+                            if (window.__docsetMouseHandlerInstalled) return;
+                            window.__docsetMouseHandlerInstalled = true;
+                            document.addEventListener('mouseup', function(e) {
+                                if (e.button === 3) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    ${mouseBackQuery!!.inject("'back'")}
+                                } else if (e.button === 4) {
+                                    e.preventDefault();
+                                    e.stopPropagation();
+                                    ${mouseForwardQuery!!.inject("'forward'")}
+                                }
+                            }, true);
+                        })();
+                    """.trimIndent()
+                    browser.executeJavaScript(mouseJs, url, 0)
                 }
             }
         }, cefBrowser)
@@ -288,6 +324,10 @@ class DocsetBrowserPanel(
     fun getBrowser(): JBCefBrowser? = browser
 
     override fun dispose() {
+        mouseBackQuery?.let { Disposer.dispose(it) }
+        mouseBackQuery = null
+        mouseForwardQuery?.let { Disposer.dispose(it) }
+        mouseForwardQuery = null
         titleQuery?.let { Disposer.dispose(it) }
         titleQuery = null
         browser?.let { Disposer.dispose(it) }
