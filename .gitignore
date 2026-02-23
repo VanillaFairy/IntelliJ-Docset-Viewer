@@ -23,6 +23,9 @@ local.properties
 .claude/
 CLAUDE.local.md
 
+# Git worktrees
+.worktrees/
+
 # Logs
 *.log
 
