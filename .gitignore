@@ -37,3 +37,6 @@ CLAUDE.local.md
 *.pid
 *.seed
 *.pid.lock
+
+# VS Code
+.vscode/
