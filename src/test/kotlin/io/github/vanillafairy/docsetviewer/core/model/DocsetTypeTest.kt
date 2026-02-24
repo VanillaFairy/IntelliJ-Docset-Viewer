@@ -51,4 +51,21 @@ class DocsetTypeTest {
             assertThat(type.displayName).isNotBlank()
         }
     }
+
+    @Test
+    fun `fromString maps Dash type abbreviations`() {
+        // Dash/Kapeli docsets (Qt, Apple) use abbreviated type names
+        assertThat(DocsetType.fromString("cl")).isEqualTo(DocsetType.CLASS)
+        assertThat(DocsetType.fromString("clm")).isEqualTo(DocsetType.METHOD)
+        assertThat(DocsetType.fromString("instm")).isEqualTo(DocsetType.METHOD)
+        assertThat(DocsetType.fromString("intfm")).isEqualTo(DocsetType.METHOD)
+        assertThat(DocsetType.fromString("intf")).isEqualTo(DocsetType.INTERFACE)
+        assertThat(DocsetType.fromString("tdef")).isEqualTo(DocsetType.TYPEDEF)
+        assertThat(DocsetType.fromString("ns")).isEqualTo(DocsetType.NAMESPACE)
+        assertThat(DocsetType.fromString("econst")).isEqualTo(DocsetType.CONSTANT)
+        assertThat(DocsetType.fromString("data")).isEqualTo(DocsetType.VARIABLE)
+        assertThat(DocsetType.fromString("tag")).isEqualTo(DocsetType.ELEMENT)
+        // Case-insensitive
+        assertThat(DocsetType.fromString("CL")).isEqualTo(DocsetType.CLASS)
+    }
 }

@@ -62,10 +62,27 @@ enum class DocsetType(val displayName: String) {
         private val nameMap: Map<String, DocsetType> = entries.associateBy { it.name.lowercase() }
         private val displayNameMap: Map<String, DocsetType> = entries.associateBy { it.displayName.lowercase() }
 
+        /** Dash/Kapeli abbreviated type names used by Qt, Apple, and other docsets. */
+        private val abbreviationMap: Map<String, DocsetType> = mapOf(
+            "cl"     to CLASS,
+            "clm"    to METHOD,
+            "instm"  to METHOD,
+            "intfm"  to METHOD,
+            "cmd"    to METHOD,
+            "m"      to METHOD,
+            "intf"   to INTERFACE,
+            "tdef"   to TYPEDEF,
+            "ns"     to NAMESPACE,
+            "econst" to CONSTANT,
+            "data"   to VARIABLE,
+            "tag"    to ELEMENT,
+        )
+
         fun fromString(value: String): DocsetType {
             val normalizedValue = value.lowercase().trim()
             return nameMap[normalizedValue]
                 ?: displayNameMap[normalizedValue]
+                ?: abbreviationMap[normalizedValue]
                 ?: UNKNOWN
         }
     }
