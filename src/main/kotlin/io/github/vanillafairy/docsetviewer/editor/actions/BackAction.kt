@@ -49,6 +49,10 @@ class BackAction(
             isEnabled = presentation.isEnabled
         }
 
+        button.addActionListener {
+            browserPanel.goBack()
+        }
+
         button.addMouseListener(object : MouseAdapter() {
             override fun mousePressed(e: MouseEvent) {
                 if (SwingUtilities.isRightMouseButton(e)) {

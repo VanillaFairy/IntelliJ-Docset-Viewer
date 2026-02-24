@@ -49,6 +49,10 @@ class ForwardAction(
             isEnabled = presentation.isEnabled
         }
 
+        button.addActionListener {
+            browserPanel.goForward()
+        }
+
         button.addMouseListener(object : MouseAdapter() {
             override fun mousePressed(e: MouseEvent) {
                 if (SwingUtilities.isRightMouseButton(e)) {
