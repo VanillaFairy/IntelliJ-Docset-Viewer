@@ -3,8 +3,8 @@ package io.github.vanillafairy.docsetviewer.editor
 import com.intellij.openapi.actionSystem.ActionManager
 import com.intellij.openapi.actionSystem.ActionToolbar
 import com.intellij.openapi.actionSystem.DefaultActionGroup
-import io.github.vanillafairy.docsetviewer.editor.actions.BackActionGroup
-import io.github.vanillafairy.docsetviewer.editor.actions.ForwardActionGroup
+import io.github.vanillafairy.docsetviewer.editor.actions.BackAction
+import io.github.vanillafairy.docsetviewer.editor.actions.ForwardAction
 import io.github.vanillafairy.docsetviewer.editor.actions.HomeAction
 import io.github.vanillafairy.docsetviewer.editor.actions.ReloadAction
 import javax.swing.JComponent
@@ -24,8 +24,8 @@ class DocsetNavigationToolbar(
 
     init {
         val actionGroup = DefaultActionGroup().apply {
-            add(BackActionGroup(browserPanel))
-            add(ForwardActionGroup(browserPanel))
+            add(BackAction(browserPanel))
+            add(ForwardAction(browserPanel))
             add(ReloadAction(browserPanel))
             add(HomeAction(browserPanel))
         }
