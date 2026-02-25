@@ -90,7 +90,15 @@ git push origin 1.3.0
 | Plugin ZIP | `build/distributions/IntelliJ-docset-viewer-<version>.zip` |
 | Test reports | `build/reports/tests/test/index.html` |
 
-## Usage
+## How to Use
+
+1. **Get docsets** - Download `.docset` bundles from [Zeal](https://zealdocs.org) or [Dash](https://kapeli.com/dash) for the languages and frameworks you use.
+2. **Add docsets to the plugin** - Go to **Settings > Tools > Docset Viewer** and click **Add** to select a `.docset` folder, or click **Import from Zeal** if you already have Zeal installed.
+3. **Look up documentation** - Place your caret on any symbol and press **Ctrl+Shift+D** (or **F1**). If there's an exact match, the docs open immediately; otherwise you'll get a selection popup.
+4. **Search across all docsets** - Press **Ctrl+Alt+D** to open a global search popup where you can type any query and browse results from all loaded docsets.
+5. **Browse in the tool window** - Open the **Docsets** panel from the right sidebar to search and browse documentation interactively.
+
+## Usage Details
 
 ### Adding Docsets
 
